@@ -1,6 +1,76 @@
-*{
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+* {
     font-family: Arial, Helvetica, sans-serif;
 }
+
+body .top_container,
+body .page-footer {
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+html body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;   /* footer luôn nằm đáy trang */
+}
+
+/* BODY / NỘI DUNG CHÍNH */
+main {
+    flex: 1;
+    width: 100%;
+    padding: 30px var(--page-padding);
+}
+
+/* TOP CONTAINER */
+.top_container {
+    width: 100%;
+    min-height: 40px;
+    background-color: rgb(76, 142, 183);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px var(--page-padding);
+    font-size: 13px;
+}
+
+.top_left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.top_right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.top_container a {
+    color: white;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.top_container a:hover {
+    color: #FFE082;
+}
+
+.top_container i {
+    margin-right: 4px;
+}
+
 /* HEADER */
 header {
     width: 100%;
@@ -8,7 +78,7 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 5px 40px;
+    padding: 5px var(--page-padding);
     background-color: white;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
@@ -36,6 +106,7 @@ header {
     height: 80px;
     margin: 0;
     padding: 0;
+    list-style: none;
 }
 
 /* NAV LINKS */
@@ -58,12 +129,12 @@ header {
     width: 100%;
     background-color: rgb(76, 142, 183);
     color: white;
-    padding: 35px 50px 15px;
-    margin-top: 50px;
+    padding: 35px var(--page-padding) 15px;
+    margin-top: 0;   /* body đã có padding dưới, không cần đệm thêm */
 }
 
-/* Logo và các cột */
 .page-footer__logo img {
+    margin-top:10px;
     width: 120px;
     height: 80px;
     object-fit: contain;
@@ -83,7 +154,7 @@ header {
 
 .page-footer__col h3 {
     font-size: 18px;
-    margin-bottom: 20px;
+    margin: 0 0 20px;
     text-transform: uppercase;
 }
 
@@ -115,7 +186,6 @@ header {
     text-decoration: underline;
 }
 
-/* Icon mạng xã hội */
 .page-footer__social-icons {
     display: flex;
     gap: 20px;
@@ -125,60 +195,22 @@ header {
     font-size: 28px;
 }
 
-/* Bản quyền */
 .page-footer__legal {
     border-top: 1px solid rgba(255, 255, 255, 0.4);
     text-align: center;
     padding-top: 15px;
     font-size: 13px;
 }
-/* TOP CONTAINER */
-.top_container {
-    width: 100%;
-    min-height: 40px;
-    background-color: rgb(76, 142, 183);
-    color: white;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px 30px;
-    font-size: 13px;
-}
 
-/* Thông tin bên trái */
-.top_left {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-/* Đăng ký và đăng nhập */
-.top_right {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.top_container a {
-    color: white;
-    text-decoration: none;
-    transition: 0.3s;
-}
-
-.top_container a:hover {
-    color: #FFE082;
-}
-
-.top_container i {
-    margin-right: 4px;
-}
-
-/* Responsive */
+/* RESPONSIVE */
 @media (max-width: 768px) {
+    :root {
+        --page-padding: 15px;
+    }
+
     .top_container {
         flex-direction: column;
         gap: 8px;
-        padding: 10px;
         text-align: center;
     }
 
@@ -186,21 +218,11 @@ header {
         flex-wrap: wrap;
         justify-content: center;
     }
-    .page-footer {
-        padding: 25px 20px 15px;
-    }
 
-    .page-footer__columns {
-        flex-direction: column;
-        gap: 25px;
-    }
-
-    .page-footer__col {
-        width: 100%;
-    }
     header {
         flex-direction: column;
-        padding: 10px;
+        padding-top: 10px;
+        padding-bottom: 10px;
     }
 
     .page-header__navbar {
@@ -213,5 +235,18 @@ header {
     .page-header__link {
         font-size: 13px;
         padding: 8px;
+    }
+
+    .page-footer {
+        padding-top: 25px;
+    }
+
+    .page-footer__columns {
+        flex-direction: column;
+        gap: 25px;
+    }
+
+    .page-footer__col {
+        width: 100%;
     }
 }
