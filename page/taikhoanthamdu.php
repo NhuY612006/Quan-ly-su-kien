@@ -9,26 +9,26 @@
     <title>Tài khoản</title>
 </head>
 <body>
-    <?php include 'top.html'; ?>
-    <?php include 'header.html'; ?>
+    <?php include '../component/top.html'; ?>
+    <?php include '../component/header.html'; ?>
     <main class="main-content">
         <h2>Thông tin tài khoản</h2>
         <form action="">
             <div class="form-row">
                 <label for="name">Họ và tên </label>
-                <input type="text" name="name"> 
+                <input type="text" name="name" id="name"> 
             </div>
             <div class="form-row">
                 <label for="phonenumber">Số điện thoại</label>
-                <input type="text" name="phonenumber">
+                <input type="text" name="phonenumber" id="phonenumber">
             </div>
             <div class="form-row">
                 <label for="Email">Email</label>
-                <input type="text" name="Email">
+                <input type="text" name="Email" id="Email">
             </div>
             <div class="form-row">
                 <label for="DoB">Ngày tháng năm sinh</label>
-                <input type="date" name="DoB">
+                <input type="date" name="DoB" id="DoB">
             </div>
             <div class="form-row">
                 <label>Giới tính:</label>
@@ -46,6 +46,6 @@
             </div>
             </form>
     </main>
-    <?php include 'footer.html'; ?>
+    <?php include '../component/footer.html'; ?>
 </body>
 </html>

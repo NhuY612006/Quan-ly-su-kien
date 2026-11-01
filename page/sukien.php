@@ -7,11 +7,11 @@
     <title>Document</title>
 </head>
 <body>
-    <?php include 'top.html'; ?>
-    <?php include 'header.html'; ?>
+    <?php include '../component/top.html'; ?>
+    <?php include '../component/header.html'; ?>
     <main class="main-section">
         
     </main>
-    <?php include 'footer.html'; ?>
+    <?php include '../component/footer.html'; ?>
 </body>
 </html>
