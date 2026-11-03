@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -72,7 +71,7 @@
 
                 <h2>Thông tin đặt vé</h2>
 
-                <form action="#" method="post">
+                <form action="#" method="post" id="bookingForm">
 
                     <div class="form-group">
 
@@ -96,18 +95,18 @@
 
                     <div class="form-group">
 
-                        <label for="ticket">Loại vé</label>
+                        <label for="MaVe">Loại vé</label>
 
-                        <select id="ticket" name="MaVe" required>
-                            <option value="1">
+                        <select id="MaVe" name="MaVe" required>
+                            <option value="1" data-price="200000">
                                 Vé thường - 200.000 VNĐ
                             </option>
 
-                            <option value="2">
+                            <option value="2" data-price="500000">
                                 Vé VIP - 500.000 VNĐ
                             </option>
 
-                            <option value="3">
+                            <option value="3" data-price="1000000">
                                 Vé VVIP - 1.000.000 VNĐ
                             </option>
                         </select>
@@ -116,11 +115,11 @@
 
                     <div class="form-group">
 
-                        <label for="quantity">Số lượng vé</label>
+                        <label for="SoLuong">Số lượng vé</label>
 
                         <input
                             type="number"
-                            id="quantity"
+                            id="SoLuong"
                             name="SoLuong"
                             min="1"
                             max="10"
@@ -177,7 +176,7 @@
 
                         <span>Tổng tiền dự kiến</span>
 
-                        <strong>200.000 VNĐ</strong>
+                        <strong id="totalPrice">200.000 VNĐ</strong>
 
                     </div>
 
@@ -201,6 +200,8 @@
     <div id="site-footer"></div>
 
     <script src="../../assets/js/components.js"></script>
+    <script src="muave.js"></script>
 
 </body>
 </html>
+```
