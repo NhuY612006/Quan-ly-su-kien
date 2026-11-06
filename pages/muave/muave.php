@@ -32,7 +32,7 @@
             <section class="event-info">
 
                 <img
-                    src="https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=900"
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRW2JY430IX5ptTilqHWMS_b-w04NiPGZ-BXLUx78TNLYj8d4Fx9oC1UKs&s=10"
                     alt="Sự kiện âm nhạc"
                     class="event-image"
                 >
