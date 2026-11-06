@@ -29,7 +29,6 @@
     </main>
 
     <?php include ROOT_PATH . '/components/footer.php'; ?>
-    <script src="../../assets/js/components.js"></script>
 
 </body>
 </html>

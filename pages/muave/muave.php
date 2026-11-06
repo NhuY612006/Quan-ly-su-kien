@@ -200,7 +200,6 @@
 
     <?php include ROOT_PATH . '/components/footer.php'; ?>
     <script src="../../assets/js/components.js"></script>
-    <script src="muave.js"></script>
 
 </body>
 </html>
