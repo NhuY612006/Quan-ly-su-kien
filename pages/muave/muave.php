@@ -14,10 +14,12 @@
 </head>
 
 <body>
-
-    <!-- Top và Header dùng chung -->
-    <div id="site-header"></div>
-
+    <?php
+    require_once __DIR__ . '/../../config/app.php';
+    require_once ROOT_PATH . '/config/database.php';
+    ?>
+    <?php include __DIR__ . '/../../components/top.html'; ?>
+    <?php include ROOT_PATH . '/components/header.php'; ?>
     <main class="container">
 
         <h1>Mua vé sự kiện</h1>
@@ -196,12 +198,9 @@
 
     </main>
 
-    <!-- Footer dùng chung -->
-    <div id="site-footer"></div>
-
+    <?php include ROOT_PATH . '/components/footer.php'; ?>
     <script src="../../assets/js/components.js"></script>
     <script src="muave.js"></script>
 
 </body>
 </html>
-```
