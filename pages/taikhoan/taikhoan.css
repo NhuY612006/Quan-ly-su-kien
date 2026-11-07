@@ -1,3 +1,4 @@
+/* Trang tai khoan */
 .main-content {
     display: flex;
     flex-direction: column;
@@ -17,3 +18,16 @@
     justify-content: flex-end;
     margin-top: 20px;
 } 
+/* Trang dang ky, dang nhap */
+.auth-card {
+    width: 100%;
+    max-width: 440px;
+    background: #fff;
+    padding: 28px 28px 22px;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,.08);
+}
+.auth-title {
+    margin: 0 0 20px;
+    text-align: center;
+}

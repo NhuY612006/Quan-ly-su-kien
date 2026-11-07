@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -16,8 +15,17 @@
 
 <body>
 
+<<<<<<< Updated upstream
     <!-- Top và Header dùng chung -->
     <div id="site-header"></div>
+=======
+    <?php
+    require_once __DIR__ . '/../../config/app.php';
+    require_once ROOT_PATH . '/config/database.php';
+    ?>
+    <?php include __DIR__ . '/../../components/top.php'; ?>
+    <?php include ROOT_PATH . '/components/header.php'; ?>
+>>>>>>> Stashed changes
 
     <main class="main-content">
 
@@ -130,10 +138,15 @@
 
     </main>
 
+<<<<<<< Updated upstream
     <!-- Footer dùng chung -->
     <div id="site-footer"></div>
 
     <script src="../../assets/js/components.js"></script>
 
+=======
+    <?php include ROOT_PATH . '/components/footer.php'; ?>
+    <script src="../../assets/js/components.js"></script>
+>>>>>>> Stashed changes
 </body>
 </html>

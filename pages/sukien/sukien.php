@@ -16,17 +16,30 @@
 
 <body>
 
+<<<<<<< Updated upstream
     <!-- Top và Header dùng chung -->
     <div id="site-header"></div>
+=======
+    <?php
+    require_once __DIR__ . '/../../config/app.php';
+    require_once ROOT_PATH . '/config/database.php';
+    ?>
+    <?php include __DIR__ . '/../../components/top.php'; ?>
+    <?php include ROOT_PATH . '/components/header.php'; ?>
+>>>>>>> Stashed changes
 
     <!-- Nội dung trang sự kiện -->
     <main class="main-section">
 
     </main>
 
+<<<<<<< Updated upstream
     <!-- Footer dùng chung -->
     <div id="site-footer"></div>
 
+=======
+    <?php include ROOT_PATH . '/components/footer.php'; ?>
+>>>>>>> Stashed changes
     <script src="../../assets/js/components.js"></script>
 
 </body>
