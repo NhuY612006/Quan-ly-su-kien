@@ -16,8 +16,12 @@
 
 <body>
 
-    <!-- Top và Header dùng chung -->
-    <div id="site-header"></div>
+    <?php
+    require_once __DIR__ . '/../../config/app.php';
+    require_once ROOT_PATH . '/config/database.php';
+    ?>
+    <?php include __DIR__ . '/../../components/top.html'; ?>
+    <?php include ROOT_PATH . '/components/header.php'; ?>
 
     <main class="main-content">
 
@@ -70,24 +74,6 @@
                     >
                 </div>
 
-                <div class="form-row">
-                    <label>Giới tính:</label>
-
-                    <div class="gender-options">
-
-                        <label>
-                            <input type="radio" name="sex" value="Nam">
-                            Nam
-                        </label>
-
-                        <label>
-                            <input type="radio" name="sex" value="Nữ">
-                            Nữ
-                        </label>
-
-                    </div>
-                </div>
-
                 <div class="form-button">
                     <button type="submit">
                         Cập nhật thông tin
@@ -130,10 +116,7 @@
 
     </main>
 
-    <!-- Footer dùng chung -->
-    <div id="site-footer"></div>
-
-    <script src="../../assets/js/components.js"></script>
+    <?php include ROOT_PATH . '/components/footer.php'; ?>
 
 </body>
 </html>
