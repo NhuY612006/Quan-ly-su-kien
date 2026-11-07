@@ -64,4 +64,5 @@ require __DIR__ . '/../../components/header.php';
         </div>
     </form>
 </div>
+<script src="<?= BASE_URL ?>/assets/js/components.js"></script>
 <?php require __DIR__ . '/../../components/footer.php'; ?>

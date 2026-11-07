@@ -85,4 +85,5 @@ require __DIR__ . '/../../components/header.php';
         <p class="form-link"><a href="quenmatkhau.php">Gửi lại mã</a> · <a href="dangnhap.php">Đăng nhập</a></p>
     </form>
 </div>
+<script src="<?= BASE_URL ?>/assets/js/components.js"></script>
 <?php require __DIR__ . '/../../components/footer.php'; ?>

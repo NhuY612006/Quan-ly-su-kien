@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
             loginUser($u);
             // Admin vao trang quan ly neu khong co trang dich cu the
-            $default = $u['VaiTro'] === 'admin' ? BASE_URL . '/pages/taikhoan/sukien.php' : BASE_URL . '/sukien.php';
+            $default = $u['VaiTro'] === 'admin' ? BASE_URL . '/pages/taikhoan/sukien.php' : BASE_URL . '/pages/sukien/sukien.php';
             header('Location: ' . ($redirect !== '' ? safeRedirect($redirect) : $default));
             exit;
         }
