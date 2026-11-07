@@ -1,11 +1,12 @@
 <?php
+
 $host = 'localhost';
-$dbname = 'event_management';
+$dbname = 'music4life';
 $username = 'root';
 $password = '';
 
 try {
-    $conn = new PDO(
+    $pdo = new PDO(
         "mysql:host=$host;dbname=$dbname;charset=utf8mb4",
         $username,
         $password
