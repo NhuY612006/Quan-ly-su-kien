@@ -17,7 +17,7 @@
             <ul>
                 <li><a href="<?= BASE_URL ?>/pages/sukien/sukien.php">Sự kiện</a></li>
                 <li><a href="<?= BASE_URL ?>/pages/muave/muave.php">Mua vé</a></li>
-                <li><a href="<?= BASE_URL ?>/pages/taikhoanthamdu/taikhoanthamdu.php">Tài khoản</a></li>
+                <li><a href="<?= BASE_URL ?>/pages/taikhoan/taikhoan.php">Tài khoản</a></li>
             </ul>
         </div>
 
