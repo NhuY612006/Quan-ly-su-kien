@@ -16,7 +16,9 @@ $B = BASE_URL;
 <body>
 <header class="site-header">
     <nav class="page-header__navbar" id="mainNav">
-
+    <a class="page-header__logo-link" href="<?= BASE_URL ?>/pages/sukien/sukien.php">
+        <img class="page-header__logo-link img" src="../../assets/images/Music%20for%20life.png" alt="Music for life">
+    </a>
         <?php if ($role === 'user' || $role === 'organizer'): ?>
             <a class="page-header__link" href="<?= $B ?>/pages/sukien/sukien.php">Sự kiện</a>
             <a class="page-header__link" href="<?= $B ?>/pages/muave/muave.php">Mua vé</a>
@@ -34,35 +36,5 @@ $B = BASE_URL;
             <a class="page-header__link" href="<?= $B ?>/pages/admin/duyet_organizer.php">Duyệt người tổ chức</a>
         <?php endif; ?>
     </nav>
-
-    <div class="auth-nav">
-    <?php if ($role === 'guest'): ?>
-    <?php else: ?>
-        <div class="user-menu" id="userMenu">
-            <!-- <button type="button" class="user-menu-toggle" id="userMenuToggle"
-                    aria-haspopup="true" aria-expanded="false">
-                <?= e($user['name']) ?> ▾
-            </button> -->
-
-            <div class="user-dropdown" id="userDropdown" hidden>
-                <a class="page-header__link" href="<?= $B ?>/pages/taikhoan/taikhoan.php">Tài khoản của tôi</a>
-                <a class="page-header__link" href="<?= $B ?>/pages/taikhoan/doimatkhau.php">Đổi mật khẩu</a>
-
-                <?php if ($role === 'user'): ?>
-                    <a class="page-header__link" href="<?= $B ?>/pages/taikhoan/yeucau_organizer.php">Đăng ký làm người tổ chức</a>
-                <?php elseif ($role === 'organizer'): ?>
-                    <a class="page-header__link" href="<?= $B ?>/pages/sukien/quanly.php">Chuyển sang trang đăng sự kiện</a>
-                <?php elseif ($role === 'admin'): ?>
-                    <a class="page-header__link" href="<?= $B ?>/pages/admin/sukien.php">Trang quản trị</a>
-                <?php endif; ?>
-
-                <form method="post" action="<?= $B ?>/pages/taikhoan/dangxuat.php">
-                    <?= csrfField() ?>
-                    <button type="submit">Đăng xuất</button>
-                </form>
-            </div>
-        </div>
-    <?php endif; ?>
-    </div>
 </header>
 <main class="container">

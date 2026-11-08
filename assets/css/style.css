@@ -206,6 +206,78 @@ header {
     font-size: 13px;
 }
 
+
+/* Menu nguoi dung tren thanh tren */
+.top_right .user-menu {
+    position: relative;
+}
+
+.top_right .user-menu-toggle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    border: none;
+    background: transparent;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.top_right .user-menu-toggle:hover {
+    background: rgba(255,255,255,.12);
+    border-radius: 6px;
+}
+
+.top_right .user-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    min-width: 240px;
+    margin-top: 8px;
+    padding: 6px 0;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    box-shadow: 0 5px 18px rgba(0,0,0,.15);
+    z-index: 1000;
+}
+
+.top_right .user-dropdown a {
+    display: block;
+    padding: 12px 16px;
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.top_right .user-dropdown a:hover {
+    background: #f3f3f3;
+    color: #8974D8;
+}
+
+.top_right .user-dropdown[hidden] {
+    display: none;
+}
+
+.top_right .user-dropdown form {
+    width: 100%;
+}
+
+.top_right .user-dropdown .logout-button {
+    width: 100%;
+    padding: 12px 16px;
+    border: none;
+    background: transparent;
+    color: #dc3545;
+    text-align: left;
+    cursor: pointer;
+}
+
+
 /* RESPONSIVE */
 @media (max-width: 768px) {
     :root {

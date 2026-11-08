@@ -1,40 +1,35 @@
-// Menu xo xuong cua nguoi dung.
-// Dung event delegation tren document nen van chay khi top/header duoc nap sau bang loadComponent.
-document.addEventListener('click', (e) => {
-    const toggle = e.target.closest('.user-menu-toggle');
 
-    document.querySelectorAll('.user-menu').forEach((menu) => {
-        const btn = menu.querySelector('.user-menu-toggle');
-        const dd  = menu.querySelector('.user-dropdown');
-        if (!btn || !dd) return;
+document.addEventListener('DOMContentLoaded', function () {
+    const userMenu = document.getElementById('userMenu');
+    const toggle = document.getElementById('userMenuToggle');
+    const dropdown = document.getElementById('userDropdown');
 
-        const clickedThis = toggle && menu.contains(toggle);
-        const open = clickedThis ? dd.hidden : false;   // bam vao nut: dao trang thai; bam cho khac: dong
+    if (!userMenu || !toggle || !dropdown) return;
 
-        dd.hidden = !open;
-        btn.setAttribute('aria-expanded', String(open));
+    toggle.addEventListener('click', function (event) {
+        event.stopPropagation();
+
+        const isOpen = userMenu.classList.toggle('open');
+
+        dropdown.hidden = !isOpen;
+        toggle.setAttribute('aria-expanded', isOpen);
     });
-});
 
-document.addEventListener('keydown', (e) => {
-    if (e.key !== 'Escape') return;
-    document.querySelectorAll('.user-menu').forEach((menu) => {
-        const btn = menu.querySelector('.user-menu-toggle');
-        const dd  = menu.querySelector('.user-dropdown');
-        if (dd && !dd.hidden) {
-            dd.hidden = true;
-            btn.setAttribute('aria-expanded', 'false');
-            btn.focus();
+    // Nhấn bên ngoài để đóng
+    document.addEventListener('click', function (event) {
+        if (!userMenu.contains(event.target)) {
+            userMenu.classList.remove('open');
+            dropdown.hidden = true;
+            toggle.setAttribute('aria-expanded', 'false');
         }
     });
-});
 
-// Nut ☰ tren dien thoai / iPad doc: mo-dong menu dieu huong
-document.addEventListener('click', (e) => {
-    const btn = e.target.closest('.nav-toggle');
-    if (!btn) return;
-    const nav = btn.closest('.site-header')?.querySelector('.main-nav');
-    if (!nav) return;
-    const open = nav.classList.toggle('open');
-    btn.setAttribute('aria-expanded', String(open));
+    // Nhấn ESC để đóng
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape') {
+            userMenu.classList.remove('open');
+            dropdown.hidden = true;
+            toggle.setAttribute('aria-expanded', 'false');
+        }
+    });
 });
