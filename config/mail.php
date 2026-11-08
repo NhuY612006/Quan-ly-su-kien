@@ -5,7 +5,7 @@ define('MAIL_ENABLED', false);
 
 define('MAIL_HOST', 'smtp.gmail.com');
 define('MAIL_PORT', 587);
-define('MAIL_USER', 'your-email@gmail.com');
-define('MAIL_PASS', 'mat-khau-ung-dung-16-ky-tu');   // App Password cua Google, KHONG phai mat khau Gmail
+define('MAIL_USER', 'email@gmail.com');
+define('MAIL_PASS', 'mat-khau-ung-dung');   // App Password cua Google, KHONG phai mat khau Gmail
 define('MAIL_FROM_NAME', 'Music4Life');
 ?>
