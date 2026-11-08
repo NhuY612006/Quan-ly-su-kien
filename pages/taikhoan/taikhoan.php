@@ -73,24 +73,6 @@
                     >
                 </div>
 
-                <div class="form-row">
-                    <label>Giới tính:</label>
-
-                    <div class="gender-options">
-
-                        <label>
-                            <input type="radio" name="sex" value="Nam">
-                            Nam
-                        </label>
-
-                        <label>
-                            <input type="radio" name="sex" value="Nữ">
-                            Nữ
-                        </label>
-
-                    </div>
-                </div>
-
                 <div class="form-button">
                     <button type="submit">
                         Cập nhật thông tin
