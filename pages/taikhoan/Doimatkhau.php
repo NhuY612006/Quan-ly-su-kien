@@ -41,6 +41,8 @@ require __DIR__ . '/../../components/header.php';
 ?>
 <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/style.css">
 <link rel="stylesheet" href="<?= BASE_URL ?>/pages/taikhoan/taikhoan.css">
+<link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 <div class="main-content">
     <form class="auth-card" method="post" autocomplete="off">
         <h2 class="auth-title">Đổi mật khẩu</h2>
