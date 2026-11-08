@@ -14,7 +14,7 @@
 <?php
 require_once __DIR__ . '/../../config/app.php';
 require_once ROOT_PATH . '/config/database.php';
-include __DIR__ . '/../../components/top.html';
+include __DIR__ . '/../../components/top.php';
 include ROOT_PATH . '/components/header.php';
 ?>
 
