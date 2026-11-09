@@ -250,5 +250,6 @@ require __DIR__ . '/../../components/header.php';
 </main>
 
 <?php require __DIR__ . '/../../components/footer.php'; ?>
+<script src="<?= BASE_URL ?>/assets/js/components.js"></script>
 </body>
 </html>
