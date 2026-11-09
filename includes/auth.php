@@ -47,10 +47,10 @@ function isAdmin(): bool {
 
 function loginUser(array $row): void {
     session_regenerate_id(true);
-    $_SESSION['user_id']    = (int)$row['ID'];
-    $_SESSION['user_name']  = $row['HoTen'];
-    $_SESSION['user_email'] = $row['Email'];
-    $_SESSION['user_role']  = $row['VaiTro'];
+    $_SESSION['user_id']    = (int)($row['ID'] ?? 0);
+    $_SESSION['user_name']  = $row['HoTen']  ?? '';
+    $_SESSION['user_email'] = $row['Email']  ?? '';
+    $_SESSION['user_role']  = $row['VaiTro'] ?? 'user';
 }
 
 function logoutUser(): void {
