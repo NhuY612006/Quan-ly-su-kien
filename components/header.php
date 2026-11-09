@@ -36,7 +36,7 @@ $B = BASE_URL;
         <?php if ($role === 'admin'): ?>
             <a class="page-header__link" href="<?= $B ?>/pages/admin/sukien.php">Quản lý sự kiện</a>
             <a class="page-header__link" href="<?= $B ?>/pages/admin/nguoidung.php">Quản lý người dùng</a>
-            <a class="page-header__link" href="<?= $B ?>/pages/admin/duyet_organizer.php">Duyệt người tổ chức</a>
+            <a class="page-header__link" href="<?= $B ?>/pages/admin/duyetdoivaitro.php">Duyệt người tổ chức</a>
         <?php endif; ?>
     </nav>
 </header>
