@@ -19,7 +19,7 @@
     justify-content: flex-end;
     margin-top: 20px;
 }
-#update-info {
+#update-info, #update-password {
     font-weight: bold;
     background-color: rgb(76, 142, 183);
     color: white;
@@ -28,7 +28,6 @@
     border-radius: 5px;
     cursor: pointer;
 }
-
 /* Trang dang ky, dang nhap */
 .auth-card {
     width: 100%;
@@ -42,4 +41,18 @@
     margin: 0 0 20px;
     text-align: center;
 }
+/*O nhap van ban ben trang dang ky lam nha to chuc*/
+.form-textarea {
+    width: 100%;
+    max-width: 600px;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    resize: vertical;
+}
 
+.form-textarea:focus {
+    outline: none;
+    border-color: rgb(76, 142, 183);
+}
