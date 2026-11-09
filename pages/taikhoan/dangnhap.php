@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
             loginUser($u);
             // Admin vao trang quan ly neu khong co trang dich cu the
-            $default = $u['VaiTro'] === 'admin' ? BASE_URL . '/pages/taikhoan/sukien.php' : BASE_URL . '/pages/sukien/sukien.php';
+            $default = $u['VaiTro'] === 'admin' ? BASE_URL . '/pages/admin/duyetdoivaitro.php' : BASE_URL . '/pages/sukien/sukien.php';
             header('Location: ' . ($redirect !== '' ? safeRedirect($redirect) : $default));
             exit;
         }
@@ -45,7 +45,7 @@ require __DIR__ . '/../../components/header.php';
 <link rel="stylesheet" href="<?= BASE_URL ?>/pages/taikhoan/taikhoan.css">
 <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-<div class="main-content">
+<main class="main-content">
     <form class="auth-card" method="post">
         <h2 class="auth-title">Đăng nhập</h2>
         <?php if (isset($_GET['registered'])): ?><p class="alert success">Đăng ký thành công, hãy đăng nhập.</p><?php endif; ?>
@@ -70,5 +70,5 @@ require __DIR__ . '/../../components/header.php';
         </div>
         <p class="form-link">Chưa có tài khoản? <a href="dangky.php">Đăng ký</a></p>
     </form>
-</div>
+</main>
 <?php require __DIR__ . '/../../components/footer.php'; ?>
