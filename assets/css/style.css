@@ -12,11 +12,6 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
-body .top_container,
-body .page-footer {
-    padding-left: 40px;
-    padding-right: 40px;
-}
 
 html body {
     margin: 0;
@@ -276,7 +271,9 @@ header {
     text-align: left;
     cursor: pointer;
 }
-
+.page-header {
+    width: 100%;
+}
 
 /* RESPONSIVE */
 @media (max-width: 768px) {
@@ -328,12 +325,5 @@ header {
 }
 
 
-.page-header {
-    width: 100%;
-}
 
-@media (max-width: 768px) {
-    :root {
-        --page-padding: 15px;
-    }
-}
+
