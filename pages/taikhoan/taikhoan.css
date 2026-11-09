@@ -19,6 +19,15 @@
     justify-content: flex-end;
     margin-top: 20px;
 }
+#update-info {
+    font-weight: bold;
+    background-color: rgb(76, 142, 183);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
 
 /* Trang dang ky, dang nhap */
 .auth-card {
