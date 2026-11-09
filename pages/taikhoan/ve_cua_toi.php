@@ -45,311 +45,80 @@ require __DIR__ . '/../../components/header.php';
 ?>
 
 <style>
-    
-/* =====================================
-   VE CUA TOI - CYBER OCEAN
-===================================== */
-
-.ticket-container {
-    position: relative;
-    isolation: isolate;
-    max-width: 1100px;
-    margin: 35px auto;
-    padding: 35px 25px;
-    border-radius: 22px;
-    overflow: hidden;
-    background:
-        radial-gradient(ellipse at 5% 15%, rgba(0, 225, 255, .17), transparent 35%),
-        radial-gradient(ellipse at 95% 85%, rgba(145, 90, 255, .18), transparent 38%),
-        linear-gradient(135deg, #061b35, #0b3457 55%, #071a36);
-    box-shadow: 0 12px 40px rgba(0, 15, 40, .2);
-}
-
-/* Tiêu đề */
-.ticket-container h1 {
-    position: relative;
-    z-index: 1;
-    text-align: center;
-    color: #fff;
-    font-family: 'Be Vietnam Pro', Arial, sans-serif;
-    font-size: 32px;
-    margin: 0 0 10px;
-    text-shadow: 0 0 14px rgba(0, 230, 255, .45);
-}
-
-.ticket-container h1::after {
-    content: "QUẢN LÝ VÉ SỰ KIỆN CỦA BẠN";
-    display: block;
-    margin-top: 9px;
-    color: #8cefff;
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 2px;
-    text-shadow: none;
-}
-
-/* Thẻ vé */
-.ticket-card {
-    position: relative;
-    z-index: 1;
-    border: 1px solid rgba(100, 225, 255, .45);
-    border-left: 5px solid #36c9e8;
-    border-radius: 15px;
-    padding: 24px 28px;
-    margin: 22px auto;
-    max-width: 850px;
-    background: rgba(255, 255, 255, .97);
-    box-shadow:
-        0 8px 25px rgba(0, 0, 0, .18),
-        0 0 14px rgba(0, 220, 255, .12);
-    transition: transform .25s ease, box-shadow .25s ease;
-}
-
-.ticket-card:hover {
-    transform: translateY(-4px);
-    box-shadow:
-        0 13px 30px rgba(0, 0, 0, .22),
-        0 0 20px rgba(0, 220, 255, .25);
-}
-
-.ticket-card h3 {
-    margin: 0 0 18px;
-    color: #174767;
-    font-family: 'Be Vietnam Pro', Arial, sans-serif;
-    font-size: 21px;
-    padding-bottom: 13px;
-    border-bottom: 1px dashed #c8e4ed;
-}
-
-.ticket-info {
-    margin: 12px 0;
-    color: #526979;
-    font-size: 14px;
-    line-height: 1.6;
-    overflow-wrap: anywhere;
-}
-
-.ticket-info strong {
-    display: inline-block;
-    min-width: 175px;
-    color: #24485f;
-}
-
-/* Trạng thái vé */
-.status {
-    display: inline-block;
-    font-size: 12px;
-    font-weight: 700;
-    padding: 5px 12px;
-    border-radius: 20px;
-}
-
-.status-active {
-    color: #087b58;
-    background: #dcf8ed;
-}
-
-.status-cancelled {
-    color: #c03939;
-    background: #ffe5e5;
-}
-
-.status-checked {
-    color: #1768a5;
-    background: #dff2ff;
-}
-
-/* Nút hủy */
-.cancel-button {
-    padding: 10px 20px;
-    border: 0;
-    border-radius: 8px;
-    background: linear-gradient(135deg, #ed6262, #c93650);
-    color: #fff;
-    font-size: 13px;
-    font-weight: 700;
-    cursor: pointer;
-    margin-top: 15px;
-    transition: .2s;
-}
-
-.cancel-button:hover {
-    background: linear-gradient(135deg, #d94a4a, #a9233c);
-    transform: translateY(-2px);
-    box-shadow: 0 5px 14px rgba(200, 50, 70, .25);
-}
-
-/* Thông báo */
-.message,
-.empty-message {
-    position: relative;
-    z-index: 1;
-    max-width: 850px;
-    margin: 18px auto;
-    padding: 16px 20px;
-    border-radius: 10px;
-    font-size: 14px;
-}
-
-.message {
-    color: #155b78;
-    background: #e4f8ff;
-    border: 1px solid #9ce6f5;
-}
-
-.empty-message {
-    padding: 35px 20px;
-    color: #d8f8ff;
-    background: rgba(255, 255, 255, .09);
-    border: 1px dashed rgba(130, 235, 255, .65);
-    text-align: center;
-}
-
-/* Cá hologram trang trí */
-.ticket-container .holo-fish {
-    position: absolute;
-    z-index: 0;
-    width: 66px;
-    height: 32px;
-    border: 1px solid rgba(100, 250, 255, .9);
-    border-radius: 50%;
-    background: linear-gradient(
-        135deg,
-        rgba(0, 255, 255, .08),
-        rgba(0, 190, 255, .48),
-        rgba(170, 100, 255, .2)
-    );
-    box-shadow:
-        0 0 8px #00eaff,
-        0 0 18px rgba(0, 225, 255, .7),
-        inset 0 0 12px rgba(100, 250, 255, .6);
-    opacity: .7;
-    pointer-events: none;
-}
-
-.ticket-container .holo-fish::before {
-    content: "";
-    position: absolute;
-    left: -17px;
-    top: 5px;
-    width: 20px;
-    height: 22px;
-    background: rgba(0, 230, 255, .35);
-    border: 1px solid rgba(100, 250, 255, .9);
-    clip-path: polygon(100% 50%, 0 0, 0 100%);
-}
-
-.ticket-container .holo-fish::after {
-    content: "";
-    position: absolute;
-    right: 12px;
-    top: 10px;
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    background: #fff;
-    box-shadow: 0 0 7px 2px #00ffff;
-}
-
-.ticket-container .fish-one {
-    top: 16%;
-    left: 4%;
-    animation: myFishOne 9s ease-in-out infinite;
-}
-
-.ticket-container .fish-two {
-    top: 42%;
-    right: 4%;
-    animation: myFishTwo 11s ease-in-out infinite;
-}
-
-.ticket-container .fish-three {
-    bottom: 12%;
-    left: 7%;
-    animation: myFishThree 12s ease-in-out infinite;
-}
-
-.ticket-container .fish-four {
-    bottom: 20%;
-    right: 8%;
-    animation: myFishFour 10s ease-in-out infinite;
-}
-
-@keyframes myFishOne {
-    0%, 100% { transform: translate(0, 0); }
-    50% { transform: translate(30px, -18px); }
-}
-
-@keyframes myFishTwo {
-    0%, 100% { transform: scaleX(-1) translate(0, 0); }
-    50% { transform: scaleX(-1) translate(30px, 18px); }
-}
-
-@keyframes myFishThree {
-    0%, 100% { transform: scale(.8) translate(0, 0); }
-    50% { transform: scale(.8) translate(25px, -20px); }
-}
-
-@keyframes myFishFour {
-    0%, 100% { transform: scaleX(-1) translate(0, 0); }
-    50% { transform: scaleX(-1) translate(25px, -15px); }
-}
-
-/* Responsive */
-@media (max-width: 600px) {
     .ticket-container {
-        margin: 18px auto;
-        padding: 25px 12px;
-        border-radius: 14px;
+        max-width: 1000px;
+        margin: 35px auto;
+        padding: 20px;
     }
 
     .ticket-container h1 {
-        font-size: 25px;
+        text-align: center;
+        margin-bottom: 25px;
     }
 
     .ticket-card {
-        padding: 20px 16px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 18px;
+        background: #fff;
     }
 
     .ticket-card h3 {
-        font-size: 18px;
+        margin-top: 0;
+        color: #222;
     }
 
     .ticket-info {
-        font-size: 13px;
+        margin: 9px 0;
     }
 
-    .ticket-info strong {
-        display: block;
-        min-width: 0;
-        margin-bottom: 3px;
+    .status {
+        font-weight: bold;
     }
 
-    .ticket-container .holo-fish {
-        opacity: .25;
-        transform: scale(.65);
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .ticket-container .holo-fish {
-        animation: none !important;
+    .status-active {
+        color: green;
     }
 
-    .ticket-card {
-        transition: none;
+    .status-cancelled {
+        color: #d9534f;
     }
-}
 
+    .status-checked {
+        color: #1677cc;
+    }
+
+    .cancel-button {
+        padding: 9px 16px;
+        border: none;
+        border-radius: 5px;
+        background: #d9534f;
+        color: white;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+
+    .cancel-button:hover {
+        background: #b52b27;
+    }
+
+    .message {
+        padding: 15px;
+        background: #f5f5f5;
+        border-radius: 6px;
+        margin-bottom: 20px;
+    }
+
+    .empty-message {
+        text-align: center;
+        padding: 30px;
+        background: #f5f5f5;
+        border-radius: 8px;
+    }
 </style>
 
 <div class="ticket-container">
-
-    <!-- Cá hologram trang trí -->
-    <div class="holo-fish fish-one" aria-hidden="true"></div>
-    <div class="holo-fish fish-two" aria-hidden="true"></div>
-    <div class="holo-fish fish-three" aria-hidden="true"></div>
-    <div class="holo-fish fish-four" aria-hidden="true"></div>
 
     <h1>Vé của tôi</h1>
 
