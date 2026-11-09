@@ -1,290 +1,254 @@
+
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-session_start();
+require_once __DIR__ . '/../../includes/auth.php';
 
-require_once __DIR__ . '/../../config/app.php';
-require_once __DIR__ . '/../../config/database.php';
+// Bắt buộc đăng nhập
+requireLogin();
 
-// Hàm bảo vệ dữ liệu khi hiển thị ra HTML
-function e($value) {
-    return htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
-}
+$db = getDB();
+$id_nguoi_dung = (int) $_SESSION['user_id'];
 
-// Tạo CSRF token
-if (empty($_SESSION['csrf_token'])) {
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-}
-
-// Kiểm tra đăng nhập
-$da_dang_nhap = isset($_SESSION['user_id']);
 $danh_sach_ve = [];
 $loi = '';
 
-if ($da_dang_nhap) {
-    try {
-        $sql = "
-            SELECT
-                d.ID,
-                d.NgayDangKy,
-                d.TrangThai,
-                d.MaVe,
-                d.TrangThaiCheckIn,
-                d.ThoiGianCheckIn,
-                s.TenSuKien,
-                s.DiaDiem,
-                s.ThoiGianBatDau,
-                s.ThoiGianKetThuc
-            FROM DangKySuKien d
-            INNER JOIN SuKien s ON d.ID_SuKien = s.ID
-            WHERE d.ID_NguoiDung = :user_id
-            ORDER BY d.NgayDangKy DESC
-        ";
+try {
+    // Lấy danh sách vé của người dùng đang đăng nhập
+    $stmt = $db->prepare("
+        SELECT
+            d.ID,
+            d.NgayDangKy,
+            d.TrangThai,
+            d.MaVe,
+            d.TrangThaiCheckIn,
+            d.ThoiGianCheckIn,
+            s.TenSuKien,
+            s.DiaDiem,
+            s.ThoiGianBatDau,
+            s.ThoiGianKetThuc
+        FROM dangkysukien d
+        JOIN sukien s ON d.ID_SuKien = s.ID
+        WHERE d.ID_NguoiDung = ?
+        ORDER BY d.NgayDangKy DESC
+    ");
 
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([
-            ':user_id' => $_SESSION['user_id']
-        ]);
+    $stmt->execute([$id_nguoi_dung]);
+    $danh_sach_ve = $stmt->fetchAll();
 
-        $danh_sach_ve = $stmt->fetchAll();
-
-    } catch (PDOException $e) {
-        $loi = 'Không thể tải danh sách vé. Vui lòng thử lại.';
-    }
+} catch (PDOException $e) {
+    $loi = 'Không thể tải danh sách vé. Vui lòng thử lại.';
 }
+
+$pageTitle = 'Vé của tôi - Music4Life';
+
+require __DIR__ . '/../../components/top.php';
+require __DIR__ . '/../../components/header.php';
 ?>
 
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vé của tôi - Music For Life</title>
+<style>
+    .ticket-container {
+        max-width: 1000px;
+        margin: 35px auto;
+        padding: 20px;
+    }
 
-    <link rel="stylesheet" href="../../assets/css/style.css">
+    .ticket-container h1 {
+        text-align: center;
+        margin-bottom: 25px;
+    }
 
-    <style>
-        .ticket-container {
-            max-width: 1100px;
-            margin: 40px auto;
-            padding: 20px;
-        }
+    .ticket-card {
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 18px;
+        background: #fff;
+    }
 
-        .ticket-container h1 {
-            text-align: center;
-            margin-bottom: 25px;
-        }
+    .ticket-card h3 {
+        margin-top: 0;
+        color: #222;
+    }
 
-        .ticket-card {
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 18px;
-            background: #fff;
-        }
+    .ticket-info {
+        margin: 9px 0;
+    }
 
-        .ticket-card h3 {
-            margin-top: 0;
-        }
+    .status {
+        font-weight: bold;
+    }
 
-        .ticket-info {
-            margin: 8px 0;
-        }
+    .status-active {
+        color: green;
+    }
 
-        .status {
-            font-weight: bold;
-        }
+    .status-cancelled {
+        color: #d9534f;
+    }
 
-        .status-active {
-            color: green;
-        }
+    .status-checked {
+        color: #1677cc;
+    }
 
-        .status-cancelled {
-            color: #d9534f;
-        }
+    .cancel-button {
+        padding: 9px 16px;
+        border: none;
+        border-radius: 5px;
+        background: #d9534f;
+        color: white;
+        cursor: pointer;
+        margin-top: 10px;
+    }
 
-        .status-checked {
-            color: #1677cc;
-        }
+    .cancel-button:hover {
+        background: #b52b27;
+    }
 
-        .cancel-button {
-            padding: 9px 16px;
-            border: none;
-            border-radius: 5px;
-            background: #d9534f;
-            color: white;
-            cursor: pointer;
-        }
+    .message {
+        padding: 15px;
+        background: #f5f5f5;
+        border-radius: 6px;
+        margin-bottom: 20px;
+    }
 
-        .message {
-            padding: 15px;
-            background: #f5f5f5;
-            border-radius: 6px;
-            margin-bottom: 20px;
-        }
+    .empty-message {
+        text-align: center;
+        padding: 30px;
+        background: #f5f5f5;
+        border-radius: 8px;
+    }
+</style>
 
-        .empty-message {
-            text-align: center;
-            padding: 30px;
-            background: #f5f5f5;
-            border-radius: 8px;
-        }
-    </style>
-</head>
-
-<body>
-
-<?php
-// Sử dụng lại header của dự án nếu có
-include __DIR__ . '/../../components/header.php';
-?>
-
-<main class="ticket-container"
-      style="display:block; color:black; background:white; min-height:500px;">
+<div class="ticket-container">
 
     <h1>Vé của tôi</h1>
 
-    <?php if (!$da_dang_nhap): ?>
-
+    <?php if (isset($_GET['registered'])): ?>
         <div class="message">
-            Bạn cần đăng nhập để xem danh sách vé đã đăng ký.
+            Đăng ký sự kiện thành công!
         </div>
+    <?php endif; ?>
 
-    <?php elseif ($loi !== ''): ?>
+    <?php if (isset($_GET['cancelled'])): ?>
+        <div class="message">
+            Hủy đăng ký thành công!
+        </div>
+    <?php endif; ?>
+
+    <?php if (isset($_GET['error'])): ?>
+        <div class="message">
+            <?= e($_GET['error']) ?>
+        </div>
+    <?php endif; ?>
+
+    <?php if ($loi !== ''): ?>
 
         <div class="message">
             <?= e($loi) ?>
         </div>
 
+    <?php elseif (empty($danh_sach_ve)): ?>
+
+        <div class="empty-message">
+            Bạn chưa đăng ký sự kiện nào.
+        </div>
+
     <?php else: ?>
 
-        <?php if (isset($_GET['registered'])): ?>
-            <div class="message">
-                Đăng ký sự kiện thành công!
-            </div>
-        <?php endif; ?>
+        <?php foreach ($danh_sach_ve as $ve): ?>
 
-        <?php if (isset($_GET['cancelled'])): ?>
-            <div class="message">
-                Hủy đăng ký thành công!
-            </div>
-        <?php endif; ?>
+            <div class="ticket-card">
 
-        <?php if (isset($_GET['error'])): ?>
-            <div class="message">
-                <?= e($_GET['error']) ?>
-            </div>
-        <?php endif; ?>
+                <h3><?= e($ve['TenSuKien']) ?></h3>
 
-        <?php if (empty($danh_sach_ve)): ?>
+                <p class="ticket-info">
+                    <strong>Địa điểm:</strong>
+                    <?= e($ve['DiaDiem']) ?>
+                </p>
 
-            <div class="empty-message">
-                Bạn chưa đăng ký sự kiện nào.
-            </div>
+                <p class="ticket-info">
+                    <strong>Thời gian bắt đầu:</strong>
+                    <?= e($ve['ThoiGianBatDau']) ?>
+                </p>
 
-        <?php else: ?>
+                <p class="ticket-info">
+                    <strong>Thời gian kết thúc:</strong>
+                    <?= e($ve['ThoiGianKetThuc']) ?>
+                </p>
 
-            <?php foreach ($danh_sach_ve as $ve): ?>
+                <p class="ticket-info">
+                    <strong>Ngày đăng ký:</strong>
+                    <?= e($ve['NgayDangKy']) ?>
+                </p>
 
-                <div class="ticket-card">
+                <p class="ticket-info">
+                    <strong>Mã vé:</strong>
+                    <?= e($ve['MaVe']) ?>
+                </p>
 
-                    <h3><?= e($ve['TenSuKien']) ?></h3>
+                <p class="ticket-info">
+                    <strong>Trạng thái đăng ký:</strong>
 
-                    <p class="ticket-info">
-                        <strong>Địa điểm:</strong>
-                        <?= e($ve['DiaDiem']) ?>
-                    </p>
+                    <?php if ($ve['TrangThai'] === 'da_dang_ky'): ?>
+                        <span class="status status-active">
+                            Đã đăng ký
+                        </span>
+                    <?php else: ?>
+                        <span class="status status-cancelled">
+                            Đã hủy
+                        </span>
+                    <?php endif; ?>
+                </p>
 
-                    <p class="ticket-info">
-                        <strong>Thời gian bắt đầu:</strong>
-                        <?= e($ve['ThoiGianBatDau']) ?>
-                    </p>
+                <p class="ticket-info">
+                    <strong>Trạng thái check-in:</strong>
 
-                    <p class="ticket-info">
-                        <strong>Thời gian kết thúc:</strong>
-                        <?= e($ve['ThoiGianKetThuc']) ?>
-                    </p>
+                    <?php if ($ve['TrangThaiCheckIn'] === 'da_checkin'): ?>
+                        <span class="status status-checked">
+                            Đã check-in
+                        </span>
+                    <?php else: ?>
+                        Chưa check-in
+                    <?php endif; ?>
+                </p>
 
-                    <p class="ticket-info">
-                        <strong>Ngày đăng ký:</strong>
-                        <?= e($ve['NgayDangKy']) ?>
-                    </p>
+                <?php if (
+                    $ve['TrangThai'] === 'da_dang_ky' &&
+                    $ve['TrangThaiCheckIn'] !== 'da_checkin' &&
+                    strtotime($ve['ThoiGianBatDau']) > time()
+                ): ?>
 
-                    <p class="ticket-info">
-                        <strong>Mã vé:</strong>
-                        <?= e($ve['MaVe']) ?>
-                    </p>
+                    <form
+                        action="<?= BASE_URL ?>/backend/registrations/cancel.php"
+                        method="POST"
+                        onsubmit="return confirm('Bạn có chắc chắn muốn hủy đăng ký sự kiện này không?');"
+                    >
 
-                    <p class="ticket-info">
-                        <strong>Trạng thái đăng ký:</strong>
-
-                        <?php if ($ve['TrangThai'] === 'da_dang_ky'): ?>
-                            <span class="status status-active">
-                                Đã đăng ký
-                            </span>
-                        <?php else: ?>
-                            <span class="status status-cancelled">
-                                Đã hủy
-                            </span>
-                        <?php endif; ?>
-                    </p>
-
-                    <p class="ticket-info">
-                        <strong>Trạng thái check-in:</strong>
-
-                        <?php if ($ve['TrangThaiCheckIn'] === 'da_checkin'): ?>
-                            <span class="status status-checked">
-                                Đã check-in
-                            </span>
-                        <?php else: ?>
-                            Chưa check-in
-                        <?php endif; ?>
-                    </p>
-
-                    <?php if (
-                        $ve['TrangThai'] === 'da_dang_ky' &&
-                        $ve['TrangThaiCheckIn'] !== 'da_checkin' &&
-                        strtotime($ve['ThoiGianBatDau']) > time()
-                    ): ?>
-
-                        <form
-                            action="../../backend/registrations/cancel.php"
-                            method="POST"
-                            onsubmit="return confirm('Bạn có chắc chắn muốn hủy đăng ký sự kiện này không?');"
+                        <input
+                            type="hidden"
+                            name="ID_DangKy"
+                            value="<?= (int) $ve['ID'] ?>"
                         >
 
-                            <input
-                                type="hidden"
-                                name="ID_DangKy"
-                                value="<?= (int)$ve['ID'] ?>"
-                            >
+                        <?= csrfField() ?>
 
-                            <input
-                                type="hidden"
-                                name="csrf"
-                                value="<?= e($_SESSION['csrf_token']) ?>"
-                            >
+                        <button type="submit" class="cancel-button">
+                            Hủy đăng ký
+                        </button>
 
-                            <button type="submit" class="cancel-button">
-                                Hủy đăng ký
-                            </button>
+                    </form>
 
-                        </form>
+                <?php endif; ?>
 
-                    <?php endif; ?>
+            </div>
 
-                </div>
-
-            <?php endforeach; ?>
-
-        <?php endif; ?>
+        <?php endforeach; ?>
 
     <?php endif; ?>
 
+</div>
+
 </main>
 
-<?php include __DIR__ . '/../../components/footer.php'; ?>
-
+<?php require __DIR__ . '/../../components/footer.php'; ?>
 </body>
 </html>
