@@ -40,4 +40,3 @@ $B = BASE_URL;
         <?php endif; ?>
     </nav>
 </header>
-<main class="container">
