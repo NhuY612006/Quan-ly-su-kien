@@ -63,7 +63,7 @@ require __DIR__ . '/../../components/header.php';
 <link rel="stylesheet" href="<?= BASE_URL ?>/pages/taikhoan/taikhoan.css">
 <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-<div class="main-content">
+<main class="main-content">
     <form class="auth-card" method="post" autocomplete="off">
         <h2 class="auth-title">Đặt lại mật khẩu</h2>
         <p>Nếu email <strong><?= e($email) ?></strong> đã đăng ký, mã xác nhận đã được gửi tới hộp thư.</p>
@@ -86,6 +86,6 @@ require __DIR__ . '/../../components/header.php';
         </div>
         <p class="form-link"><a href="quenmatkhau.php">Gửi lại mã</a> · <a href="dangnhap.php">Đăng nhập</a></p>
     </form>
-</div>
+</main>
 <script src="<?= BASE_URL ?>/assets/js/components.js"></script>
 <?php require __DIR__ . '/../../components/footer.php'; ?>
