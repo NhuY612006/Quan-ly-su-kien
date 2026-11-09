@@ -95,3 +95,26 @@ function requireAdmin(): void {
         exit('Ban khong co quyen truy cap trang nay.');
     }
 }
+function isOrganizer(): bool {
+    return currentRole() === 'organizer';
+}
+
+function guiThongBao(PDO $db, int $userId, string $tieuDe, string $noiDung, string $loai): void {
+    $db->prepare("INSERT INTO thongbao (ID_NguoiDung, TieuDe, NoiDung, LoaiThongBao) VALUES (?, ?, ?, ?)")
+       ->execute([$userId, $tieuDe, $noiDung, $loai]);
+}
+
+function demThongBaoChuaDoc(): int {
+    if (!isLoggedIn()) return 0;
+    $st = getDB()->prepare("SELECT COUNT(*) FROM thongbao WHERE ID_NguoiDung = ? AND DaDoc = 0");
+    $st->execute([$_SESSION['user_id']]);
+    return (int)$st->fetchColumn();
+}
+
+function requireOrganizer(): void {
+    requireLogin();
+    if (!in_array(currentRole(), ['organizer', 'admin'], true)) {
+        http_response_code(403);
+        exit('Ban khong co quyen truy cap trang nay.');
+    }
+}
