@@ -52,7 +52,7 @@ $pageTitle = 'Tài khoản | Musicforlife';
 
     <main class="main-content">
 
-        <h1>Tài khoản của tôi</h1>
+        <h1 class="account-title">Tài khoản của tôi</h1>
 
         <!-- THÔNG TIN CÁ NHÂN -->
         <section class="account-info">
