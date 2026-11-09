@@ -77,12 +77,14 @@ if (!$thongTin) {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Thông tin tài khoản</title>
     <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="stylesheet" href="../../pages/taikhoan/taikhoan.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 </head>
 <body>
     <?php require __DIR__ . '/../../components/top.php';
     require __DIR__ . '/../../components/header.php';?>
 
-    <main class="account-page" style="max-width:600px;margin:30px auto;padding:0 16px;">
+    <main class="main-content" style="max-width:600px;margin:30px auto;padding:0 16px;">
         <h2>Thông tin tài khoản</h2>
 
         <?php if ($success): ?>
@@ -93,7 +95,7 @@ if (!$thongTin) {
         <?php endforeach; ?>
 
         <!-- Hiển thị thông tin hiện tại / mới nhất -->
-        <section>
+        <section class="current-info">
             <h3>Thông tin hiện tại</h3>
             <ul>
                 <li><b>Họ tên:</b> <?= e($thongTin['HoTen']) ?></li>
@@ -103,7 +105,7 @@ if (!$thongTin) {
         </section>
 
         <!-- Form nhập thông tin mới (điền sẵn giá trị hiện có) -->
-        <section>
+        <section class="update-info">
             <h3>Cập nhật thông tin</h3>
             <form method="post" action="">
                 <?= csrfField() ?>
