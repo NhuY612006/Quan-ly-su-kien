@@ -22,6 +22,7 @@ $B = BASE_URL;
         <?php if ($role === 'user' || $role === 'organizer'): ?>
             <a class="page-header__link" href="<?= $B ?>/pages/sukien/sukien.php">Sự kiện</a>
             <a class="page-header__link" href="<?= $B ?>/pages/muave/muave.php">Mua vé</a>
+            <a class="page-header__link" href="<?= $B ?>/pages/taikhoan/ve_cua_toi.php">Vé của tôi</a>
             <a class="page-header__link" href="<?= $B ?>/pages/taikhoan/taikhoan.php">Tài khoản</a>
 
         <?php endif; ?>
