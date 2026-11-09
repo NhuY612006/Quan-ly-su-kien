@@ -43,7 +43,7 @@ require __DIR__ . '/../../components/header.php';
 <link rel="stylesheet" href="<?= BASE_URL ?>/pages/taikhoan/taikhoan.css">
 <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-<div class="main-content">
+<main class="main-content">
     <form class="auth-card" method="post" autocomplete="off">
         <h2 class="auth-title">Đổi mật khẩu</h2>
         <?php if ($ok): ?><p class="alert success">Đổi mật khẩu thành công.</p><?php endif; ?>
@@ -62,9 +62,9 @@ require __DIR__ . '/../../components/header.php';
             <input type="password" id="xacnhan" name="xacnhan" required minlength="6">
         </div>
         <div class="form-button">
-            <button class="btn" type="submit">Lưu mật khẩu</button>
+            <button id="update-password" type="submit">Lưu mật khẩu</button>
         </div>
     </form>
-</div>
+</main>
 <script src="<?= BASE_URL ?>/assets/js/components.js"></script>
 <?php require __DIR__ . '/../../components/footer.php'; ?>
