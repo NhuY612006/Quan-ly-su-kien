@@ -54,6 +54,7 @@ require __DIR__ . '/../../components/header.php';
     .ticket-container h1 {
         text-align: center;
         margin-bottom: 25px;
+        color: #fff;
     }
 
     .ticket-card {

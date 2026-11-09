@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mua vé sự kiện | Music For Life</title>
-
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap">
     <link rel="stylesheet" href="../../assets/css/style.css">
-    <link rel="stylesheet" href="muave.css">
+    <link rel="stylesheet" href="muave.css?v=3">
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 </head>
@@ -19,6 +19,14 @@ include ROOT_PATH . '/components/header.php';
 ?>
 
 <main class="ticket-main">
+
+    <!-- Cá hologram trang trí -->
+    <div class="holo-fish fish-one" aria-hidden="true"></div>
+    <div class="holo-fish fish-two" aria-hidden="true"></div>
+    <div class="holo-fish fish-three" aria-hidden="true"></div>
+    <div class="holo-fish fish-four" aria-hidden="true"></div>
+
+    <div class="holo-bubbles" aria-hidden="true"></div>
     <div class="ticket-title">
         <span class="ticket-eyebrow"><i class="fa-solid fa-ticket"></i> MUSIC FOR LIFE</span>
         <h1>Đặt vé sự kiện</h1>

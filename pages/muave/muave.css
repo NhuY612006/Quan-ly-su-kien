@@ -1,18 +1,37 @@
 /* GIAO DIEN TRANG MUA VE - MUSIC FOR LIFE */
+
 .ticket-main {
     flex: 1;
     width: 100%;
     min-height: 650px;
     padding: 48px 5% 65px;
-    background: #f3f7fb;
+
+    background:
+        radial-gradient(
+            circle at 10% 15%,
+            rgba(76, 142, 183, 0.18),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 90% 80%,
+            rgba(126, 190, 220, 0.22),
+            transparent 35%
+        ),
+        linear-gradient(
+            135deg,
+            #eaf4fb 0%,
+            #f5f9fd 50%,
+            #e4f0f8 100%
+        );
 }
-.ticket-title { text-align: center; margin: 0 auto 34px; }
+
+.ticket-title { text-align: center; margin: 0 auto 34px;}
 .ticket-eyebrow {
     display: inline-block; color: #4c8eb7; font-size: 12px;
     font-weight: 800; letter-spacing: 2px; margin-bottom: 10px;
 }
-.ticket-title h1 { color: #20394d; font-size: 34px; margin: 0 0 10px; }
-.ticket-title p { color: #71808c; font-size: 15px; margin: 0; }
+.ticket-title h1 { color: white; font-size: 34px; margin: 0 0 10px; }
+.ticket-title p { color: #cae1f5; font-size: 15px; margin: 0; }
 .ticket-layout {
     max-width: 1160px; margin: auto; display: grid;
     grid-template-columns: 1fr 1fr; gap: 28px; align-items: start;
@@ -29,11 +48,7 @@
     background: radial-gradient(circle at 80% 20%, rgba(255,255,255,.2), transparent 30%),
                 linear-gradient(135deg, #4c8eb7, #234d70);
 }
-.cover-label {
-    font-size: 11px; letter-spacing: 2px; font-weight: 800;
-    border: 1px solid rgba(255,255,255,.55); border-radius: 30px;
-    padding: 6px 12px;
-}
+
 .event-cover i { font-size: 48px; margin-top: 7px; }
 .event-cover h2 { margin: 0; font-size: 25px; letter-spacing: 3px; }
 .event-cover p { margin: 0; font-size: 14px; opacity: .9; }
@@ -64,7 +79,6 @@
 .event-benefits i { color: #4c9b79; margin-right: 8px; }
 .booking-card { padding: 30px; }
 .booking-title { margin-bottom: 24px; }
-.booking-step { color: #4c8eb7; font-size: 11px; font-weight: 800; letter-spacing: 1.5px; }
 .booking-title h2 { color: #263d50; font-size: 23px; margin: 8px 0; }
 .booking-title p { color: #87939d; font-size: 13px; margin: 0; }
 .form-group { margin-bottom: 17px; }
@@ -116,4 +130,200 @@
     .event-content, .booking-card { padding: 22px 19px; }
     .event-cover { min-height: 205px; }
     .ticket-total strong { font-size: 18px; }
+}
+
+
+/* Đổi font riêng cho hai dòng chữ */
+.cover-label,
+.booking-step {
+    font-family: 'Be Vietnam Pro', sans-serif !important;
+    font-style: normal;
+    letter-spacing: 0.5px;
+    font-weight: 700;
+}
+
+/* SỰ KIỆN NỔI BẬT */
+.cover-label {
+    font-size: 12px;
+}
+
+/* 01 / ĐẶT CHỖ */
+.booking-step {
+    font-size: 13px;
+}
+
+
+
+/* =====================================
+   CYBER OCEAN - HOLOGRAM BACKGROUND
+===================================== */
+
+.ticket-main {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background:
+        radial-gradient(ellipse at 10% 20%, rgba(0, 225, 255, .18), transparent 35%),
+        radial-gradient(ellipse at 90% 75%, rgba(125, 75, 255, .17), transparent 38%),
+        linear-gradient(135deg, #061b35, #092d50 50%, #071a36);
+}
+
+/* Ánh sáng và bong bóng dưới nền */
+.holo-bubbles {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: .55;
+    background-image:
+        radial-gradient(circle, rgba(95, 245, 255, .8) 1px, transparent 2px),
+        radial-gradient(circle, rgba(120, 180, 255, .7) 2px, transparent 3px),
+        radial-gradient(circle, rgba(190, 130, 255, .6) 1px, transparent 2px);
+    background-size: 95px 120px, 145px 170px, 190px 210px;
+    animation: bubbleMove 18s linear infinite;
+}
+
+@keyframes bubbleMove {
+    from { background-position: 0 0, 40px 20px, 80px 50px; }
+    to { background-position: 0 -500px, 40px -650px, 80px -750px; }
+}
+
+/* Cá hologram */
+.holo-fish {
+    position: absolute;
+    z-index: 0;
+    width: 66px;
+    height: 32px;
+    border: 1px solid rgba(100, 250, 255, .9);
+    border-radius: 50%;
+    background: linear-gradient(
+        135deg,
+        rgba(0, 255, 255, .08),
+        rgba(0, 190, 255, .48),
+        rgba(170, 100, 255, .2)
+    );
+    box-shadow:
+        0 0 8px #00eaff,
+        0 0 18px rgba(0, 225, 255, .7),
+        inset 0 0 12px rgba(100, 250, 255, .6);
+    opacity: .8;
+    pointer-events: none;
+}
+
+/* Đuôi cá */
+.holo-fish::before {
+    content: "";
+    position: absolute;
+    left: -17px;
+    top: 5px;
+    width: 20px;
+    height: 22px;
+    background: rgba(0, 230, 255, .35);
+    border: 1px solid rgba(100, 250, 255, .9);
+    clip-path: polygon(100% 50%, 0 0, 0 100%);
+    filter: drop-shadow(0 0 5px #00eaff);
+}
+
+/* Mắt cá */
+.holo-fish::after {
+    content: "";
+    position: absolute;
+    right: 12px;
+    top: 10px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 0 7px 2px #00ffff;
+}
+
+/* Vị trí và chuyển động từng chú cá */
+.fish-one {
+    top: 18%;
+    left: 3%;
+    animation: fishSwimOne 9s ease-in-out infinite;
+}
+
+.fish-two {
+    top: 45%;
+    right: 3%;
+    transform: scaleX(-1);
+    animation: fishSwimTwo 11s ease-in-out infinite;
+}
+
+.fish-three {
+    top: 72%;
+    left: 5%;
+    transform: scale(.75);
+    animation: fishSwimThree 12s ease-in-out infinite;
+}
+
+.fish-four {
+    top: 85%;
+    right: 7%;
+    transform: scaleX(-1) scale(.85);
+    animation: fishSwimFour 10s ease-in-out infinite;
+}
+
+/* Chuyển động bơi */
+@keyframes fishSwimOne {
+    0%, 100% { transform: translate(0, 0) rotate(0); }
+    50% { transform: translate(35px, -20px) rotate(-8deg); }
+}
+
+@keyframes fishSwimTwo {
+    0%, 100% { transform: scaleX(-1) translate(0, 0); }
+    50% { transform: scaleX(-1) translate(35px, 20px); }
+}
+
+@keyframes fishSwimThree {
+    0%, 100% { transform: scale(.75) translate(0, 0); }
+    50% { transform: scale(.75) translate(25px, -25px); }
+}
+
+@keyframes fishSwimFour {
+    0%, 100% { transform: scaleX(-1) scale(.85) translate(0, 0); }
+    50% { transform: scaleX(-1) scale(.85) translate(30px, -18px); }
+}
+
+/* Đưa nội dung lên trên lớp trang trí */
+.ticket-title,
+.ticket-layout {
+    position: relative;
+    z-index: 1;
+}
+
+/* Giữ các khung nội dung dễ đọc */
+.event-card,
+.booking-card {
+    background: rgba(255, 255, 255, .97);
+}
+
+/* Trên màn hình nhỏ, giảm số hiệu ứng */
+@media (max-width: 600px) {
+    .holo-fish {
+        opacity: .35;
+        transform: scale(.65);
+    }
+
+    .fish-one {
+        left: -20px;
+    }
+
+    .fish-two {
+        right: -20px;
+    }
+
+    .fish-three,
+    .fish-four {
+        display: none;
+    }
+}
+
+/* Tôn trọng cài đặt giảm chuyển động của người dùng */
+@media (prefers-reduced-motion: reduce) {
+    .holo-fish,
+    .holo-bubbles {
+        animation: none !important;
+    }
 }

@@ -20,7 +20,10 @@ $id_nguoi_dung = (int) $_SESSION['user_id'];
 $id_su_kien = (int) ($_POST['ID_SuKien'] ?? 0);
 
 if ($id_su_kien <= 0) {
-    header('Location: ' . BASE_URL . '/pages/sukien/sukien.php?error=' . urlencode('Sự kiện không hợp lệ.'));
+    header(
+        'Location: ' . BASE_URL . '/pages/taikhoan/ve_cua_toi.php?error=' .
+        urlencode('Sự kiện không hợp lệ.')
+    );
     exit;
 }
 
@@ -128,8 +131,8 @@ try {
     }
 
     header(
-        'Location: ' . BASE_URL . '/pages/sukien/sukien.php?error=' .
-        urlencode($e->getMessage())
-    );
+    'Location: ' . BASE_URL . '/pages/taikhoan/ve_cua_toi.php?error=' .
+    urlencode($e->getMessage())
+);
     exit;
 }

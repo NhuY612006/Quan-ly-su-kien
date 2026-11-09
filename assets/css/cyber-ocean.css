@@ -1,0 +1,184 @@
+/* =====================================
+   CYBER OCEAN - HOLOGRAM BACKGROUND
+   Dung chung cho cac trang (tru trang Mua ve)
+   Cac keyframes va tao hinh hologram duoc giu theo ma goc.
+===================================== */
+
+html {
+    min-height: 100%;
+    background: #061b35;
+}
+
+body.cyber-ocean-enabled {
+    position: relative;
+    isolation: isolate;
+    background:
+        radial-gradient(ellipse at 10% 20%, rgba(0, 225, 255, .18), transparent 35%),
+        radial-gradient(ellipse at 90% 75%, rgba(125, 75, 255, .17), transparent 38%),
+        linear-gradient(135deg, #061b35, #092d50 50%, #071a36);
+}
+
+/* Lop nen hologram co dinh tren toan bo trang */
+.cyber-ocean-layer {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+/* Bong bong anh sang */
+.holo-bubbles {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: .55;
+    background-image:
+        radial-gradient(circle, rgba(95, 245, 255, .8) 1px, transparent 2px),
+        radial-gradient(circle, rgba(120, 180, 255, .7) 2px, transparent 3px),
+        radial-gradient(circle, rgba(190, 130, 255, .6) 1px, transparent 2px);
+    background-size: 95px 120px, 145px 170px, 190px 210px;
+    animation: bubbleMove 18s linear infinite;
+}
+
+@keyframes bubbleMove {
+    from { background-position: 0 0, 40px 20px, 80px 50px; }
+    to { background-position: 0 -500px, 40px -650px, 80px -750px; }
+}
+
+/* Ca hologram */
+.cyber-ocean-layer .holo-fish {
+    position: absolute;
+    z-index: 0;
+    width: 66px;
+    height: 32px;
+    border: 1px solid rgba(100, 250, 255, .9);
+    border-radius: 50%;
+    background: linear-gradient(
+        135deg,
+        rgba(0, 255, 255, .08),
+        rgba(0, 190, 255, .48),
+        rgba(170, 100, 255, .2)
+    );
+    box-shadow:
+        0 0 8px #00eaff,
+        0 0 18px rgba(0, 225, 255, .7),
+        inset 0 0 12px rgba(100, 250, 255, .6);
+    opacity: .8;
+    pointer-events: none;
+}
+
+/* Duoi ca */
+.cyber-ocean-layer .holo-fish::before {
+    content: "";
+    position: absolute;
+    left: -17px;
+    top: 5px;
+    width: 20px;
+    height: 22px;
+    background: rgba(0, 230, 255, .35);
+    border: 1px solid rgba(100, 250, 255, .9);
+    clip-path: polygon(100% 50%, 0 0, 0 100%);
+    filter: drop-shadow(0 0 5px #00eaff);
+}
+
+/* Mat ca */
+.cyber-ocean-layer .holo-fish::after {
+    content: "";
+    position: absolute;
+    right: 12px;
+    top: 10px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 0 7px 2px #00ffff;
+}
+
+/* Vi tri va chuyen dong tung chu ca */
+.cyber-ocean-layer .fish-one {
+    top: 18%;
+    left: 3%;
+    animation: fishSwimOne 9s ease-in-out infinite;
+}
+
+.cyber-ocean-layer .fish-two {
+    top: 45%;
+    right: 3%;
+    transform: scaleX(-1);
+    animation: fishSwimTwo 11s ease-in-out infinite;
+}
+
+.cyber-ocean-layer .fish-three {
+    top: 72%;
+    left: 5%;
+    transform: scale(.75);
+    animation: fishSwimThree 12s ease-in-out infinite;
+}
+
+.cyber-ocean-layer .fish-four {
+    top: 85%;
+    right: 7%;
+    transform: scaleX(-1) scale(.85);
+    animation: fishSwimFour 10s ease-in-out infinite;
+}
+
+/* Chuyen dong boi - giu nguyen keyframes goc */
+@keyframes fishSwimOne {
+    0%, 100% { transform: translate(0, 0) rotate(0); }
+    50% { transform: translate(35px, -20px) rotate(-8deg); }
+}
+
+@keyframes fishSwimTwo {
+    0%, 100% { transform: scaleX(-1) translate(0, 0); }
+    50% { transform: scaleX(-1) translate(35px, 20px); }
+}
+
+@keyframes fishSwimThree {
+    0%, 100% { transform: scale(.75) translate(0, 0); }
+    50% { transform: scale(.75) translate(25px, -25px); }
+}
+
+@keyframes fishSwimFour {
+    0%, 100% { transform: scaleX(-1) scale(.85) translate(0, 0); }
+    50% { transform: scaleX(-1) scale(.85) translate(30px, -18px); }
+}
+
+/* Noi dung trang nam tren lop trang tri */
+body.cyber-ocean-enabled > :not(.cyber-ocean-layer) {
+    position: relative;
+    z-index: 1;
+}
+
+/* Khong lam thay doi mau nen cua header/footer */
+body.cyber-ocean-enabled header,
+body.cyber-ocean-enabled .top_container,
+body.cyber-ocean-enabled .page-footer {
+    position: relative;
+    z-index: 2;
+}
+
+/* Tren man hinh nho, giam so hieu ung */
+@media (max-width: 600px) {
+    .cyber-ocean-layer .holo-fish {
+        opacity: .35;
+        transform: scale(.65);
+    }
+
+    .cyber-ocean-layer .fish-one { left: -20px; }
+    .cyber-ocean-layer .fish-two { right: -20px; }
+
+    .cyber-ocean-layer .fish-three,
+    .cyber-ocean-layer .fish-four {
+        display: none;
+    }
+}
+
+/* Ton trong cai dat giam chuyen dong */
+@media (prefers-reduced-motion: reduce) {
+    .cyber-ocean-layer .holo-fish,
+    .cyber-ocean-layer .holo-bubbles {
+        animation: none !important;
+    }
+}
