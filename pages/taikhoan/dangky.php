@@ -82,4 +82,6 @@ require __DIR__ . '/../../components/header.php';
         <p class="form-link">Đã có tài khoản? <a href="dangnhap.php">Đăng nhập</a></p>
     </form>
 </div>
-<?php require __DIR__ . '/../../components/footer.php'; ?>
+<?php require_once ROOT_PATH . '/components/footer.php'; ?>
+
+<script src="<?= BASE_URL ?>/assets/js/components.js"></script>
