@@ -41,7 +41,12 @@ $rows  = $st->fetchAll();
 $pages = max(1, (int)ceil($total / $per));
 ?>
 <!DOCTYPE html>
-<html lang="vi"><head><meta charset="utf-8"><title>Quản lý người dùng</title></head>
+<html lang="vi"><head>
+<meta charset="utf-8">
+<title>Quản lý người dùng</title>
+<link rel="stylesheet" href="../../assets/css/style.css">
+<link rel="stylesheet" href="../../pages/taikhoan/taikhoan.css">
+</head>
 <body>
 <?php require_once __DIR__ . '/../../components/top.php'; ?>
 <?php require_once __DIR__ . '/../../components/header.php'; ?>
@@ -87,7 +92,7 @@ $pages = max(1, (int)ceil($total / $per));
   <?php endforeach; ?>
 </table>
 <?php else: ?>
-<table border="1" cellpadding="6">
+<table class="user-access" border="1" cellpadding="6">
   <tr><th>Thời gian</th><th>Tài khoản</th><th>Địa chỉ IP</th><th>Trang</th><th>Method</th><th>Trình duyệt</th></tr>
   <?php foreach ($rows as $r): ?>
   <tr>
@@ -110,6 +115,6 @@ $pages = max(1, (int)ceil($total / $per));
   <?php endfor; ?>
 </p>
 <?php require_once __DIR__ . '/../../components/footer.php'; ?>
-<script src="assets/js/components.js"></script>
+<script src="/../../assets/js/components.js"></script>
 </body>
 </html>
