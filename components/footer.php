@@ -14,25 +14,29 @@
 
         <div class="page-footer__col">
             <h3>LIÊN KẾT NHANH</h3>
-            <?php if ($role === 'user' || $role === 'organizer'): ?>
-            <a class="page-header__link" href="<?= $B ?>/pages/sukien/sukien.php">Sự kiện</a>
-            <a class="page-header__link" href="<?= $B ?>/pages/muave/muave.php">Mua vé</a>
-            <a class="page-header__link" href="<?= $B ?>/pages/taikhoan/ve_cua_toi.php">Vé của tôi</a>
-            <a class="page-header__link" href="<?= $B ?>/pages/taikhoan/taikhoan.php">Tài khoản</a>
+            <ul>
+                <li>
+                    <?php if ($role === 'user' || $role === 'organizer'): ?>
+                    <a  href="<?= $B ?>/pages/sukien/sukien.php">Sự kiện</a>
+                    <a  href="<?= $B ?>/pages/muave/muave.php">Mua vé</a>
+                    <a  href="<?= $B ?>/pages/taikhoan/ve_cua_toi.php">Vé của tôi</a>
+                    <a  href="<?= $B ?>/pages/taikhoan/taikhoan.php">Tài khoản</a>
 
-            <?php endif; ?>
-            <?php if ($role === 'guest'): ?>
-                <a class="page-header__link" href="<?= $B ?>/pages/sukien/sukien.php">Sự kiện</a>
-            <?php endif; ?>
-            <?php if ($role === 'organizer'): ?>
-                <a class="page-header__link" href="<?= $B ?>/pages/sukien/quanly.php">Sự kiện của tôi</a>
-            <?php endif; ?>
+                    <?php endif; ?>
+                    <?php if ($role === 'guest'): ?>
+                        <a  href="<?= $B ?>/pages/sukien/sukien.php">Sự kiện</a>
+                    <?php endif; ?>
+                    <?php if ($role === 'organizer'): ?>
+                        <a  href="<?= $B ?>/pages/sukien/quanly.php">Sự kiện của tôi</a>
+                    <?php endif; ?>
 
-            <?php if ($role === 'admin'): ?>
-                <a class="page-header__link" href="<?= $B ?>/pages/admin/sukien.php">Quản lý sự kiện</a>
-                <a class="page-header__link" href="<?= $B ?>/pages/admin/nguoidung.php">Quản lý người dùng</a>
-                <a class="page-header__link" href="<?= $B ?>/pages/admin/duyetdoivaitro.php">Duyệt người tổ chức</a>
-            <?php endif; ?>
+                    <?php if ($role === 'admin'): ?>
+                        <a  href="<?= $B ?>/pages/admin/sukien.php">Quản lý sự kiện</a>
+                        <a  href="<?= $B ?>/pages/admin/nguoidung.php">Quản lý người dùng</a>
+                        <a  href="<?= $B ?>/pages/admin/duyetdoivaitro.php">Duyệt người tổ chức</a>
+                    <?php endif; ?>
+                </li>
+            </ul>
         </div>
 
         <div class="page-footer__col">
