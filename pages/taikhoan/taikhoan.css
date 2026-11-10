@@ -28,7 +28,7 @@
     border-radius: 5px;
     cursor: pointer;
 }
-.account-info, .account-events {
+.account-info{
     width: 100%;
     max-width: 600px;
     background-color: #fff;
