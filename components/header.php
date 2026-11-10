@@ -21,15 +21,12 @@ $B = BASE_URL;
     <a class="page-header__logo-link" href="<?= BASE_URL ?>/pages/sukien/sukien.php">
         <img class="page-header__logo-link img" src="../../assets/images/Music%20for%20life.png" alt="Music for life">
     </a>
+        <a class="page-header__link" href="<?= $B ?>/pages/sukien/sukien.php">Sự kiện</a>
         <?php if ($role === 'user' || $role === 'organizer'): ?>
-            <a class="page-header__link" href="<?= $B ?>/pages/sukien/sukien.php">Sự kiện</a>
             <a class="page-header__link" href="<?= $B ?>/pages/muave/muave.php">Mua vé</a>
             <a class="page-header__link" href="<?= $B ?>/pages/taikhoan/ve_cua_toi.php">Vé của tôi</a>
             <a class="page-header__link" href="<?= $B ?>/pages/taikhoan/taikhoan.php">Tài khoản</a>
 
-        <?php endif; ?>
-        <?php if ($role === 'guest'): ?>
-            <a class="page-header__link" href="<?= $B ?>/pages/sukien/sukien.php">Sự kiện</a>
         <?php endif; ?>
         <?php if ($role === 'organizer'): ?>
             <a class="page-header__link" href="<?= $B ?>/pages/sukien/quanly.php">Sự kiện của tôi</a>
