@@ -7,6 +7,7 @@ if (empty($_SESSION['csrf_token'])) {
 
 // Toàn bộ xử lý dữ liệu nằm ở file riêng; file này chỉ hiển thị.
 require_once __DIR__ . '/sukien_controller.php';
+<<<<<<< HEAD
 
 /**
  * Nút hành động cho một sự kiện:
@@ -43,6 +44,8 @@ function sk_action(array $ev, bool $isLoggedIn, array $myRegs, string $label = '
          . '<button type="submit" class="sk-btn">' . e($label) . '</button>'
          . '</form>';
 }
+=======
+>>>>>>> 52ccd2d2a215aa70ae8c49d5474d8a9eb0f95459
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -84,6 +87,7 @@ function sk_action(array $ev, bool $isLoggedIn, array $myRegs, string $label = '
             </div>
         <?php endif; ?>
 
+<<<<<<< HEAD
         <?php if ($dbError): ?>
             <div class="sk-flash sk-flash--error" role="alert">
                 <i class="fa-solid fa-circle-exclamation"></i>
@@ -91,11 +95,17 @@ function sk_action(array $ev, bool $isLoggedIn, array $myRegs, string $label = '
             </div>
         <?php endif; ?>
 
+=======
+>>>>>>> 52ccd2d2a215aa70ae8c49d5474d8a9eb0f95459
         <!-- Giới thiệu + sự kiện nổi bật -->
         <section class="sk-hero">
             <div class="sk-hero__text">
                 <h1>Sự kiện sắp diễn ra</h1>
+<<<<<<< HEAD
                 <p>Concert, đại nhạc hội và đêm nhạc đang được chờ đợi nhất mùa cuối năm. Chọn đêm diễn và đăng ký tham gia chỉ trong một phút.</p>
+=======
+                <p>Concert, đại nhạc hội và đêm nhạc đang được chờ đợi nhất mùa cuối năm. Chọn đêm diễn và đăng ký quan tâm chỉ trong một phút.</p>
+>>>>>>> 52ccd2d2a215aa70ae8c49d5474d8a9eb0f95459
                 <dl class="sk-stats">
                     <div><dt>Sắp diễn ra</dt><dd><?= count(array_filter($events, fn($x) => $x['status'] !== 'past')) ?></dd></div>
                     <div><dt>Đã tổ chức</dt><dd><?= count(array_filter($events, fn($x) => $x['status'] === 'past')) ?></dd></div>
@@ -114,7 +124,11 @@ function sk_action(array $ev, bool $isLoggedIn, array $myRegs, string $label = '
                     <h2><?= e($featured['title']) ?></h2>
                     <p class="sk-meta"><i class="fa-regular fa-clock"></i> <?= e($featured['time']) ?></p>
                     <p class="sk-meta"><i class="fa-solid fa-location-dot"></i> <?= e($featured['location']) ?></p>
+<<<<<<< HEAD
                     <?= sk_action($featured, $isLoggedIn, $myRegs, 'Đăng ký tham gia') ?>
+=======
+                    <button class="sk-btn" data-register data-id="<?= $featured['id'] ?>" data-title="<?= e($featured['title']) ?>">Đăng ký tham gia</button>
+>>>>>>> 52ccd2d2a215aa70ae8c49d5474d8a9eb0f95459
                 </div>
             </article>
             <?php endif; ?>
@@ -158,7 +172,11 @@ function sk_action(array $ev, bool $isLoggedIn, array $myRegs, string $label = '
             <?php foreach ($shown as $ev):
                 $d = strtotime($ev['date']);
                 $left = $ev['capacity'] - $ev['registered'];
+<<<<<<< HEAD
                 $pct = $ev['capacity'] > 0 ? min(100, round($ev['registered'] / $ev['capacity'] * 100)) : 0;
+=======
+                $pct = min(100, round($ev['registered'] / $ev['capacity'] * 100));
+>>>>>>> 52ccd2d2a215aa70ae8c49d5474d8a9eb0f95459
             ?>
             <article class="sk-card sk-card--<?= $ev['status'] ?>">
                 <div class="sk-card__date">
@@ -183,7 +201,15 @@ function sk_action(array $ev, bool $isLoggedIn, array $myRegs, string $label = '
                     </div>
                     <p class="sk-bar__label"><?= $ev['registered'] ?>/<?= $ev['capacity'] ?> người đã đăng ký</p>
 
+<<<<<<< HEAD
                     <?= sk_action($ev, $isLoggedIn, $myRegs) ?>
+=======
+                    <?php if ($ev['status'] === 'past' || $ev['full']): ?>
+                        <button class="sk-btn sk-btn--ghost" disabled><?= $ev['status'] === 'past' ? 'Đã kết thúc' : 'Hết chỗ' ?></button>
+                    <?php else: ?>
+                        <button class="sk-btn" data-register data-id="<?= $ev['id'] ?>" data-title="<?= e($ev['title']) ?>">Đăng ký</button>
+                    <?php endif; ?>
+>>>>>>> 52ccd2d2a215aa70ae8c49d5474d8a9eb0f95459
                 </div>
             </article>
             <?php endforeach; ?>
@@ -200,8 +226,39 @@ function sk_action(array $ev, bool $isLoggedIn, array $myRegs, string $label = '
 
     </main>
 
+    <!-- Hộp thoại đăng ký -->
+    <dialog class="sk-modal" id="sk-modal" aria-labelledby="sk-modal-title">
+        <form method="post" action="" class="sk-form" novalidate>
+            <input type="hidden" name="csrf_token" value="<?= e($_SESSION['csrf_token']) ?>">
+            <input type="hidden" name="event_id" id="sk-event-id">
+
+            <header>
+                <h2 id="sk-modal-title">Đăng ký tham gia</h2>
+                <button type="button" class="sk-close" data-close aria-label="Đóng"><i class="fa-solid fa-xmark"></i></button>
+            </header>
+            <p class="sk-form__event" id="sk-event-title"></p>
+
+            <label>Họ và tên
+                <input type="text" name="name" required minlength="2" maxlength="80" autocomplete="name">
+            </label>
+            <label>Email
+                <input type="email" name="email" required autocomplete="email">
+            </label>
+            <label>Số điện thoại
+                <input type="tel" name="phone" required pattern="(0|\+84)\d{9}" inputmode="tel" autocomplete="tel" placeholder="0912345678">
+            </label>
+            <p class="sk-form__error" id="sk-form-error" role="alert"></p>
+
+            <div class="sk-form__actions">
+                <button type="button" class="sk-btn sk-btn--ghost" data-close>Hủy</button>
+                <button type="submit" class="sk-btn">Xác nhận đăng ký</button>
+            </div>
+        </form>
+    </dialog>
+
     <?php include ROOT_PATH . '/components/footer.php'; ?>
     <script src="../../assets/js/components.js"></script>
+    <script src="sukien.js"></script>
 
 </body>
 </html>
