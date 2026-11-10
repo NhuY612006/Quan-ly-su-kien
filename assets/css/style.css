@@ -17,7 +17,7 @@ body {
     padding: 0;
     min-height: 100vh;
     display: flex;
-    flex-direction: column;   /* footer luôn nằm đáy trang */
+    flex-direction: column;
 }
 
 /* BODY / NỘI DUNG CHÍNH */
@@ -129,7 +129,12 @@ header {
     background-color: rgb(76, 142, 183);
     color: white;
     padding: 35px var(--page-padding) 15px;
-    margin-top: 0;   /* body đã có padding dưới, không cần đệm thêm */
+    margin-top: 0;
+}
+
+/* FOOTER LOGO */
+.page-footer__logo {
+    display: inline-block;
 }
 
 .page-footer__logo img {
@@ -139,6 +144,7 @@ header {
     object-fit: contain;
 }
 
+/* FOOTER COLUMNS */
 .page-footer__columns {
     display: flex;
     justify-content: space-between;
@@ -149,6 +155,7 @@ header {
 
 .page-footer__col {
     flex: 1;
+    min-width: 0;
 }
 
 .page-footer__col h3 {
@@ -157,12 +164,14 @@ header {
     text-transform: uppercase;
 }
 
+/* FOOTER CONTACT */
 .page-footer__col p {
     font-size: 14px;
     line-height: 1.8;
     margin: 10px 0;
 }
 
+/* FOOTER QUICK LINKS */
 .page-footer__col ul {
     list-style: none;
     padding: 0;
@@ -170,10 +179,29 @@ header {
 }
 
 .page-footer__col ul li {
-    margin-bottom: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    margin: 0;
 }
 
-.page-footer__col a {
+.page-footer__col ul li a {
+    display: block;
+    width: fit-content;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.page-footer__col ul li a:hover {
+    color: #FFE082;
+    text-decoration: underline;
+}
+
+/* FOOTER LINKS */
+.page-footer__col > a {
     color: white;
     text-decoration: none;
     font-size: 14px;
@@ -182,18 +210,27 @@ header {
 
 .page-footer__col a:hover {
     color: #FFE082;
-    text-decoration: underline;
 }
 
+/* SOCIAL ICONS */
 .page-footer__social-icons {
     display: flex;
+    align-items: center;
     gap: 20px;
 }
 
 .page-footer__social-icons a {
+    color: white;
     font-size: 28px;
+    text-decoration: none;
+    transition: 0.3s;
 }
 
+.page-footer__social-icons a:hover {
+    color: #FFE082;
+}
+
+/* FOOTER LEGAL */
 .page-footer__legal {
     border-top: 1px solid rgba(255, 255, 255, 0.4);
     text-align: center;
@@ -201,7 +238,7 @@ header {
     font-size: 13px;
 }
 
-/* Menu nguoi dung tren thanh tren */
+/* MENU NGƯỜI DÙNG TRÊN THANH TRÊN */
 .top_right #user-area {
     display: flex;
     align-items: center;
@@ -277,7 +314,7 @@ header {
     cursor: pointer;
 }
 
-/* Chuong thong bao tren thanh tren */
+/* CHUÔNG THÔNG BÁO TRÊN THANH TRÊN */
 .top_right .notif-menu {
     position: relative;
 }
@@ -403,6 +440,7 @@ header {
     background: #f3f3f3;
     color: #8974D8;
 }
+
 /* RESPONSIVE */
 @media (max-width: 768px) {
     :root {
