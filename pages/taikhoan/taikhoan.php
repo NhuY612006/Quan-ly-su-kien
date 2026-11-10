@@ -79,51 +79,6 @@ $pageTitle = 'Tài khoản | Musicforlife';
                 </a>
             </div>
         </section>
-
-        <!-- SỰ KIỆN ĐÃ ĐĂNG KÝ -->
-        <section class="account-events">
-            <h2>Sự kiện đã đăng ký</h2>
-
-            <?php if ($events): ?>
-                <div class="table-responsive">
-                    <table class="event-table">
-                        <thead>
-                            <tr>
-                                <th>STT</th>
-                                <th>Tên sự kiện</th>
-                                <th>Thời gian diễn ra</th>
-                                <th>Ngày đăng ký</th>
-                                <th>Trạng thái</th>
-                                <th>Check-in</th>
-                                <th>Mã vé</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($events as $i => $ev): ?>
-                                <tr>
-                                    <td><?= $i + 1 ?></td>
-                                    <td><?= e($ev['TenSuKien']) ?></td>
-                                    <td><?= date('d/m/Y H:i', strtotime($ev['ThoiGianBatDau'])) ?></td>
-                                    <td><?= date('d/m/Y H:i', strtotime($ev['NgayDangKy'])) ?></td>
-                                    <td>
-                                        <?php if ($ev['TrangThaiDangKy'] === 'da_dang_ky'): ?>
-                                            <span class="status-active">Đã đăng ký</span>
-                                        <?php else: ?>
-                                            <span class="status-cancelled">Đã hủy</span>
-                                        <?php endif; ?>
-                                    </td>
-                                    <td><?= $ev['TrangThaiCheckIn'] === 'da_checkin' ? 'Đã check-in' : 'Chưa check-in' ?></td>
-                                    <td><?= e($ev['MaVe']) ?></td>
-                                </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                </div>
-            <?php else: ?>
-                <p>Bạn chưa đăng ký sự kiện nào.</p>
-            <?php endif; ?>
-        </section>
-
     </main>
 
     <?php require_once ROOT_PATH . '/components/footer.php'; ?>
