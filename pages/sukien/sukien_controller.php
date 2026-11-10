@@ -1,31 +1,46 @@
 <?php
 /**
- * Xử lý dữ liệu cho trang Sự kiện: truy vấn CSDL, lọc, phân trang, đăng ký.
+ * Xử lý dữ liệu cho trang Sự kiện: truy vấn CSDL, lọc, phân trang, đăng ký / hủy đăng ký.
  * Được nạp từ sukien.php (sau session_start và tạo CSRF token).
+ *
+ * CSDL music4life: sukien, danhmuc, dangkysukien, nguoidung.
+ * Các khóa của mảng $events (title, category, date, time, ...) giữ nguyên
+ * như bản cũ để file view sukien.php không phải sửa phần hiển thị.
  */
 require_once __DIR__ . '/../../includes/auth.php';
-require_once ROOT_PATH . '/config/database.php';   // cần cung cấp biến $pdo (đối tượng PDO)
+require_once ROOT_PATH . '/config/database.php';   // cung cấp getDB()
 
 $pdo = getDB();
-/* ---------- Dữ liệu sự kiện (từ CSDL, xem sukien.sql) ---------- */
-$sql = "SELECT e.id, e.title, e.category, e.event_date AS `date`,
-               DATE_FORMAT(e.event_time, '%H:%i') AS `time`,
-               e.location, e.description AS `desc`, e.capacity,
-               COUNT(r.id) AS registered
-        FROM events e
-        LEFT JOIN event_registrations r ON r.event_id = e.id
-        WHERE e.is_published = 1
-        GROUP BY e.id
-        ORDER BY e.event_date";
+
+/* ---------- Dữ liệu sự kiện ---------- */
+$sql = "SELECT s.ID                                   AS id,
+               s.TenSuKien                            AS title,
+               d.TenDanhMuc                           AS category,
+               DATE(s.ThoiGianBatDau)                 AS `date`,
+               DATE_FORMAT(s.ThoiGianBatDau, '%H:%i') AS `time`,
+               DATE(s.ThoiGianKetThuc)                AS end_date,
+               DATE_FORMAT(s.ThoiGianKetThuc, '%H:%i') AS end_time,
+               s.DiaDiem                              AS location,
+               s.MoTa                                 AS `desc`,
+               s.AnhSuKien                            AS image,
+               s.SoLuongToiDa                         AS capacity,
+               s.TrangThai                            AS db_status,
+               COUNT(r.ID)                            AS registered
+        FROM sukien s
+        JOIN danhmuc d ON d.ID = s.ID_DanhMuc
+        LEFT JOIN dangkysukien r ON r.ID_SuKien = s.ID AND r.TrangThai = 'da_dang_ky'
+        WHERE s.TrangThai <> 'da_huy'
+          AND d.TrangThai = 'hoat_dong'
+        GROUP BY s.ID
+        ORDER BY s.ThoiGianBatDau";
+$dbError = false;
 try {
     $events = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $ex) {
-    error_log('sukien.php: ' . $ex->getMessage());
+    error_log('sukien_controller.php: ' . $ex->getMessage());
     $events = [];
     $dbError = true;
 }
-foreach ($events as &$ev) { $ev['id'] = (int)$ev['id']; $ev['capacity'] = (int)$ev['capacity']; $ev['registered'] = (int)$ev['registered']; }
-unset($ev);
 
 /* ---------- Hàm hỗ trợ ---------- */
 if (!function_exists('e')) { function e($s) { return htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8'); } }
@@ -34,67 +49,136 @@ if (!function_exists('sk_url')) { function sk_url(array $over = []) {
     $q = array_filter($q, fn($v) => $v !== '' && $v !== null);
     return '?' . http_build_query($q);
 } }
+
 $today = date('Y-m-d');
 foreach ($events as &$ev) {
-    $ev['status'] = $ev['date'] < $today ? 'past' : ($ev['date'] === $today ? 'today' : 'upcoming');
-    $ev['full']   = $ev['registered'] >= $ev['capacity'];
+    $ev['id']         = (int)$ev['id'];
+    $ev['capacity']   = (int)$ev['capacity'];
+    $ev['registered'] = (int)$ev['registered'];
+    $ev['desc']       = (string)$ev['desc'];
+    if ($ev['db_status'] === 'da_ket_thuc' || $ev['end_date'] < $today) $ev['status'] = 'past';
+    elseif ($ev['date'] <= $today)                                       $ev['status'] = 'today';
+    else                                                                 $ev['status'] = 'upcoming';
+    $ev['full'] = $ev['registered'] >= $ev['capacity'];
 }
 unset($ev);
 
-/* ---------- Xử lý đăng ký (POST) ---------- */
+/* ---------- Người dùng hiện tại + các sự kiện họ đã đăng ký ---------- */
+$isLoggedIn = isLoggedIn();
+$userId     = $isLoggedIn ? (int)($_SESSION['user_id'] ?? 0) : 0;
+$myRegs     = [];   // [id sự kiện => mã vé]
+if ($userId > 0) {
+    try {
+        $st = $pdo->prepare("SELECT ID_SuKien, MaVe FROM dangkysukien WHERE ID_NguoiDung = ? AND TrangThai = 'da_dang_ky'");
+        $st->execute([$userId]);
+        foreach ($st->fetchAll(PDO::FETCH_ASSOC) as $r) $myRegs[(int)$r['ID_SuKien']] = $r['MaVe'];
+    } catch (PDOException $ex) {
+        error_log('sukien_controller.php: ' . $ex->getMessage());
+    }
+}
+foreach ($events as &$ev) { $ev['registered_by_me'] = isset($myRegs[$ev['id']]); }
+unset($ev);
+
+/* ---------- Xử lý đăng ký / hủy đăng ký (POST) ---------- */
 $flash = $_SESSION['flash'] ?? null;
 unset($_SESSION['flash']);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $err = null;
-    $token = $_POST['csrf_token'] ?? '';
-    $id    = (int)($_POST['event_id'] ?? 0);
-    $name  = trim($_POST['name'] ?? '');
-    $email = trim($_POST['email'] ?? '');
-    $phone = preg_replace('/\s+/', '', $_POST['phone'] ?? '');
+    $back   = strtok($_SERVER['REQUEST_URI'], '#') . '#danh-sach';
+    $action = ($_POST['action'] ?? 'register') === 'cancel' ? 'cancel' : 'register';
+    $token  = $_POST['csrf_token'] ?? '';
+    $id     = (int)($_POST['event_id'] ?? 0);
 
     $target = null;
     foreach ($events as $ev) { if ($ev['id'] === $id) { $target = $ev; break; } }
 
-    if (!hash_equals($_SESSION['csrf_token'], $token))              $err = 'Phiên làm việc đã hết hạn. Hãy tải lại trang và thử lại.';
-    elseif (!$target)                                                $err = 'Không tìm thấy sự kiện.';
-    elseif ($target['status'] === 'past')                            $err = 'Sự kiện này đã kết thúc.';
-    elseif ($target['full'])                                         $err = 'Sự kiện đã đủ số lượng đăng ký.';
-    elseif (mb_strlen($name) < 2 || mb_strlen($name) > 80)           $err = 'Họ tên cần từ 2 đến 80 ký tự.';
-    elseif (!filter_var($email, FILTER_VALIDATE_EMAIL))              $err = 'Email chưa đúng định dạng.';
-    elseif (!preg_match('/^(0|\+84)\d{9}$/', $phone))                $err = 'Số điện thoại cần có 10 chữ số, ví dụ 0912345678.';
+    $err = null;
+    if (!hash_equals($_SESSION['csrf_token'] ?? '', $token)) $err = 'Phiên làm việc đã hết hạn. Hãy tải lại trang và thử lại.';
+    elseif ($userId <= 0)                                    $err = 'Bạn cần đăng nhập để đăng ký hoặc hủy đăng ký sự kiện.';
+    elseif (!$target)                                        $err = 'Không tìm thấy sự kiện.';
+    elseif ($target['status'] === 'past')                    $err = 'Sự kiện này đã kết thúc.';
 
     if ($err) {
         $_SESSION['flash'] = ['type' => 'error', 'msg' => $err];
-    } else {
-        try {
-            $pdo->beginTransaction();
-            $row = $pdo->prepare("SELECT capacity FROM events WHERE id = ? AND is_published = 1 FOR UPDATE");
-            $row->execute([$id]);
-            $cap = (int)$row->fetchColumn();
-            $cnt = $pdo->prepare("SELECT COUNT(*) FROM event_registrations WHERE event_id = ?");
-            $cnt->execute([$id]);
-            if ((int)$cnt->fetchColumn() >= $cap) {
-                $pdo->rollBack();
-                $_SESSION['flash'] = ['type' => 'error', 'msg' => 'Sự kiện vừa hết chỗ.'];
-                header('Location: ' . strtok($_SERVER['REQUEST_URI'], '#') . '#danh-sach');
-                exit;
-            }
-            $pdo->prepare("INSERT INTO event_registrations (event_id, name, email, phone) VALUES (?, ?, ?, ?)")
-                ->execute([$id, $name, $email, $phone]);
-            $pdo->commit();
-        } catch (PDOException $ex) {
-            if ($pdo->inTransaction()) $pdo->rollBack();
-            $_SESSION['flash'] = ['type' => 'error', 'msg' => $ex->getCode() === '23000'
-                ? 'Email này đã đăng ký sự kiện trên.'
-                : 'Không thể lưu đăng ký lúc này. Hãy thử lại sau.'];
-            if ($ex->getCode() !== '23000') error_log('sukien.php: ' . $ex->getMessage());
-            header('Location: ' . strtok($_SERVER['REQUEST_URI'], '#') . '#danh-sach');
+        header('Location: ' . $back);
+        exit;
+    }
+
+    try {
+        $pdo->beginTransaction();
+
+        // Khóa dòng sự kiện để tránh nhiều người cùng đăng ký vượt số lượng
+        $row = $pdo->prepare("SELECT SoLuongToiDa FROM sukien WHERE ID = ? AND TrangThai <> 'da_huy' FOR UPDATE");
+        $row->execute([$id]);
+        $cap = $row->fetchColumn();
+        if ($cap === false) {
+            $pdo->rollBack();
+            $_SESSION['flash'] = ['type' => 'error', 'msg' => 'Không tìm thấy sự kiện.'];
+            header('Location: ' . $back);
             exit;
         }
-        $_SESSION['flash'] = ['type' => 'ok', 'msg' => 'Đã đăng ký "' . $target['title'] . '". Thông tin xác nhận sẽ gửi tới ' . $email . '.'];
+        $cap = (int)$cap;
+
+        // Bản ghi đăng ký (nếu có) của người dùng này cho sự kiện này
+        $ex = $pdo->prepare("SELECT ID, TrangThai FROM dangkysukien WHERE ID_NguoiDung = ? AND ID_SuKien = ? FOR UPDATE");
+        $ex->execute([$userId, $id]);
+        $existing = $ex->fetch(PDO::FETCH_ASSOC);
+
+        if ($action === 'cancel') {
+            if (!$existing || $existing['TrangThai'] !== 'da_dang_ky') {
+                $pdo->rollBack();
+                $_SESSION['flash'] = ['type' => 'error', 'msg' => 'Bạn chưa đăng ký sự kiện này.'];
+                header('Location: ' . $back);
+                exit;
+            }
+            $pdo->prepare("UPDATE dangkysukien SET TrangThai = 'da_huy' WHERE ID = ?")
+                ->execute([$existing['ID']]);
+            $pdo->commit();
+            $_SESSION['flash'] = ['type' => 'ok', 'msg' => 'Đã hủy đăng ký "' . $target['title'] . '".'];
+            header('Location: ' . $back);
+            exit;
+        }
+
+        // ----- action = register -----
+        if ($existing && $existing['TrangThai'] === 'da_dang_ky') {
+            $pdo->rollBack();
+            $_SESSION['flash'] = ['type' => 'error', 'msg' => 'Bạn đã đăng ký sự kiện này rồi.'];
+            header('Location: ' . $back);
+            exit;
+        }
+
+        $cnt = $pdo->prepare("SELECT COUNT(*) FROM dangkysukien WHERE ID_SuKien = ? AND TrangThai = 'da_dang_ky'");
+        $cnt->execute([$id]);
+        if ((int)$cnt->fetchColumn() >= $cap) {
+            $pdo->rollBack();
+            $_SESSION['flash'] = ['type' => 'error', 'msg' => 'Sự kiện đã đủ số lượng đăng ký.'];
+            header('Location: ' . $back);
+            exit;
+        }
+
+        $maVe = 'VE' . strtoupper(bin2hex(random_bytes(5)));
+        if ($existing) {
+            // Đã từng hủy -> đăng ký lại: dùng lại dòng cũ (do ràng buộc UNIQUE người dùng + sự kiện)
+            $pdo->prepare("UPDATE dangkysukien
+                           SET TrangThai = 'da_dang_ky', NgayDangKy = NOW(), MaVe = ?,
+                               TrangThaiCheckIn = 'chua_checkin', ThoiGianCheckIn = NULL
+                           WHERE ID = ?")
+                ->execute([$maVe, $existing['ID']]);
+        } else {
+            $pdo->prepare("INSERT INTO dangkysukien (ID_NguoiDung, ID_SuKien, MaVe) VALUES (?, ?, ?)")
+                ->execute([$userId, $id, $maVe]);
+        }
+        $pdo->commit();
+
+        $_SESSION['flash'] = ['type' => 'ok', 'msg' => 'Đã đăng ký "' . $target['title'] . '". Mã vé của bạn: ' . $maVe];
+    } catch (PDOException $ex) {
+        if ($pdo->inTransaction()) $pdo->rollBack();
+        error_log('sukien_controller.php: ' . $ex->getMessage());
+        $_SESSION['flash'] = ['type' => 'error', 'msg' => $ex->getCode() === '23000'
+            ? 'Bạn đã đăng ký sự kiện này rồi.'
+            : 'Không thể lưu đăng ký lúc này. Hãy thử lại sau.'];
     }
-    header('Location: ' . strtok($_SERVER['REQUEST_URI'], '#') . '#danh-sach');
+    header('Location: ' . $back);
     exit;
 }
 
